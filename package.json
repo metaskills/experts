@@ -1,0 +1,21 @@
+{
+  "name": "experts",
+  "version": "0.0.1",
+  "description": "An opinionated panel of experts implementation using OpenAI's Assistants API",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_OPTIONS='--no-warnings --experimental-vm-modules' jest"
+  },
+  "author": "Ken COllins",
+  "license": "MIT",
+  "dependencies": {
+    "openai": "^4.38.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.4",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-environment-node": "^29.7.0"
+  }
+}

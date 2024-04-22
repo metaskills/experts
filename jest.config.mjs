@@ -1,0 +1,17 @@
+export default {
+  bail: 1,
+  testEnvironment: "node",
+  transform: {},
+  testMatch: ["<rootDir>/test/**/*.test.js"],
+  globalSetup: "./test/globalSetup.js",
+  globalTeardown: undefined,
+  slowTestThreshold: 30,
+  cacheDirectory: "./tmp",
+  setupFiles: [],
+  setupFilesAfterEnv: [],
+  slowTestThreshold: 30,
+  automock: false,
+  clearMocks: true,
+  testTimeout: 120000,
+  slowTestThreshold: 90,
+};

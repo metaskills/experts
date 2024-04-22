@@ -1,0 +1,25 @@
+name: Test
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Test
+        uses: devcontainers/ci@v0.3
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        with:
+          push: always
+          imageName: ghcr.io/metaskills/experts-ci
+          cacheFrom: ghcr.io/metaskills/experts-ci
+          env: |
+            CI
+            OPENAI_API_KEY
+          runCmd: |
+            npm install
+            npm run test
