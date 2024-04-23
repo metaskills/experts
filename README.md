@@ -15,6 +15,6 @@ OPENAI_API_KEY=sk-...
 Now you can run the following commands:
 
 ```bash
-npm install
-npm run test
+./bin/setup
+./bin/test
 ```

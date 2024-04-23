@@ -3,9 +3,15 @@
   "version": "0.0.1",
   "description": "An opinionated panel of experts implementation using OpenAI's Assistants API",
   "type": "module",
-  "main": "index.js",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./thread": "./src/thread.js",
+    "./assistant": "./src/assistant.js",
+    "./tool": "./src/tool.js"
+  },
   "scripts": {
-    "test": "NODE_OPTIONS='--no-warnings --experimental-vm-modules' jest"
+    "test": "./bin/test"
   },
   "author": "Ken COllins",
   "license": "MIT",
@@ -17,5 +23,9 @@
     "babel-jest": "^29.7.0",
     "jest": "^29.7.0",
     "jest-environment-node": "^29.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metaskills/experts"
   }
 }

@@ -5,8 +5,8 @@ import { Message } from "./messages.js";
 import { Run } from "./run.js";
 
 class Assistant {
-  static async create() {
-    const asst = new this();
+  static async create(agentName, description, instructions, options = {}) {
+    const asst = new this(agentName, description, instructions, options);
     await asst.init();
     return asst;
   }
@@ -23,10 +23,11 @@ class Assistant {
     this.llm = options.llm !== undefined ? options.llm : true;
     if (this.llm) {
       this.id = options.id;
-      this.temperature =
-        options.temperature !== undefined ? options.temperature : 0.1;
-      this.model = options.model || "gpt-3.5-turbo";
+      this.model = options.model || "gpt-4-turbo";
       this.messages = [];
+      this.temperature =
+        options.temperature !== undefined ? options.temperature : 1.0;
+      this.top_p = options.top_p !== undefined ? options.top_p : 1.0;
       this.assistantsTools = {};
       this.assistantsToolsOutputs = [];
       this.tools = [];
@@ -143,6 +144,8 @@ class Assistant {
       name: this.agentName,
       description: this.description,
       instructions: this.instructions,
+      temperature: this.temperature,
+      top_p: this.top_p,
       tools: this.tools,
     });
     debug(`💁‍♂️ Created ${this.agentName} assistant ${assistant.id}...`);
