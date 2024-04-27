@@ -24,10 +24,14 @@ class Thread {
     return this.thread.id;
   }
 
+  get metadata() {
+    return this.thread.metadata;
+  }
+
   async addMetaData(key, value) {
-    this.thread.metadata[key] = value;
+    this.metadata[key] = value;
     await openai.beta.threads.update(this.id, {
-      metadata: this.thread.metadata,
+      metadata: this.metadata,
     });
     debug("🧵 Update: " + JSON.stringify(this.thread));
   }
