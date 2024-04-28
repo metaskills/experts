@@ -3,4 +3,4 @@ set -e
 
 export NODE_OPTIONS='--no-warnings --experimental-vm-modules'
 
-npx jest --runInBand $1
+npx jest $1

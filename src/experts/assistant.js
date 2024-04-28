@@ -5,8 +5,8 @@ import { Message } from "./messages.js";
 import { Run } from "./run.js";
 
 class Assistant {
-  static async create(agentName, description, instructions, options = {}) {
-    const asst = new this(agentName, description, instructions, options);
+  static async init() {
+    const asst = new this();
     await asst.init();
     return asst;
   }
@@ -30,7 +30,10 @@ class Assistant {
       this.top_p = options.top_p !== undefined ? options.top_p : 1.0;
       this.assistantsTools = {};
       this.assistantsToolsOutputs = [];
-      this.tools = [];
+      this.tools = options.tools || [];
+      this.tool_resources = options.tool_resources || {};
+      this._metadata = options.metadata;
+      this.response_format = options.response_format || "auto";
     }
   }
 
@@ -50,6 +53,10 @@ class Assistant {
 
   set id(id) {
     this._id = id;
+  }
+
+  get metadata() {
+    return this.assistant.metadata;
   }
 
   // Messages: Asking and access.
@@ -147,6 +154,9 @@ class Assistant {
       temperature: this.temperature,
       top_p: this.top_p,
       tools: this.tools,
+      tool_resources: this.tool_resources,
+      metadata: this._metadata,
+      response_format: this.response_format,
     });
     debug(`💁‍♂️ Created ${this.agentName} assistant ${assistant.id}...`);
     return assistant;

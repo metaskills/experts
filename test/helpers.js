@@ -1,4 +1,18 @@
+import url from "url";
+import path from "path";
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 import { openai } from "../src/openai.js";
+
+const helperName = (use) => {
+  const name = `Experts.js (${use})`;
+  return `${name} ${Math.random().toString(36).substring(4)}`;
+};
+
+const helperPath = (filePath) => {
+  const base = path.resolve(__dirname, "..");
+  return path.join(base, filePath);
+};
 
 const helperThreadID = async () => {
   const thread = await openai.beta.threads.create();
@@ -33,10 +47,27 @@ const helperDeleteAssistant = async (name) => {
   }
 };
 
+const helperFindAllVectorStores = async () => {
+  const vectorStores = await openai.beta.vectorStores.list({ limit: 100 });
+  return vectorStores.data.filter((a) => a.name?.startsWith("Experts.js"));
+};
+
+const helperDeleteAllVectorStores = async () => {
+  const vectorStores = await helperFindAllVectorStores();
+  for (const vectorStore of vectorStores) {
+    try {
+      await openai.beta.vectorStores.del(vectorStore.id);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
 export {
+  helperName,
+  helperPath,
   helperThreadID,
-  helperFindAllAssistants,
   helperDeleteAllAssistants,
   helperFindAssistant,
-  helperDeleteAssistant,
+  helperDeleteAllVectorStores,
 };

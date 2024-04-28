@@ -1,5 +1,4 @@
 const DEBUG = process.env.DEBUG === "1";
-
 const isDebug = DEBUG;
 
 const debug = (message) => {
