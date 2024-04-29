@@ -5,7 +5,7 @@ import { Message } from "./messages.js";
 import { Run } from "./run.js";
 
 class Assistant {
-  static async init() {
+  static async create() {
     const asst = new this();
     await asst.init();
     return asst;

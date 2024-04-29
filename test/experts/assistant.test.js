@@ -4,9 +4,7 @@ import {
   helperName,
   helperPath,
   helperThreadID,
-  helperDeleteAllAssistants,
   helperFindAssistant,
-  helperDeleteAllVectorStores,
 } from "../helpers.js";
 import {
   TestAssistant,
@@ -14,25 +12,9 @@ import {
   OddFactsAssistant,
 } from "../fixtures.js";
 
-beforeEach(async () => {
-  await helperDeleteAllAssistants();
-});
-
-afterEach(async () => {
-  await helperDeleteAllAssistants();
-});
-
 describe("with vector store", () => {
-  beforeEach(async () => {
-    await helperDeleteAllVectorStores();
-  });
-
-  afterEach(async () => {
-    await helperDeleteAllVectorStores();
-  });
-
   test("can provide tools", async () => {
-    const assistant = await OddFactsAssistant.init();
+    const assistant = await OddFactsAssistant.create();
     const threadID = await helperThreadID();
     const output = await assistant.ask(
       "Using a single word response, tell me what food source do Proxima Centauri b inhabitants migrate for?",
@@ -43,7 +25,7 @@ describe("with vector store", () => {
 });
 
 test("can ask the assistant a question using a thread id", async () => {
-  const assistant = await EchoAssistant.init();
+  const assistant = await EchoAssistant.create();
   const threadID = await helperThreadID();
   const output = await assistant.ask("hello 123", threadID);
   expect(output).toBe("hello 123");
@@ -81,7 +63,7 @@ test("create new assistant using name, description, and instruction defaults", a
   TestAssistant.name = name;
   const assistantNone = await helperFindAssistant(name);
   expect(assistantNone).toBeUndefined();
-  const assistant = await TestAssistant.init();
+  const assistant = await TestAssistant.create();
   const backendAssistant = await helperFindAssistant(name);
   // Assistant
   expect(assistant.agentName).toBe(name);

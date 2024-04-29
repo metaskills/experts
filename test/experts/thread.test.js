@@ -1,8 +1,4 @@
-import {
-  helperThreadID,
-  helperDeleteAllAssistants,
-  helperFindAssistant,
-} from "../helpers.js";
+import { helperThreadID, helperFindAssistant } from "../helpers.js";
 
 import { Thread } from "../../src/experts/thread.js";
 

@@ -4,7 +4,7 @@ export default {
   transform: {},
   testMatch: ["<rootDir>/test/**/*.test.js"],
   globalSetup: "./test/globalSetup.js",
-  globalTeardown: undefined,
+  globalTeardown: "./test/globalTeardown.js",
   slowTestThreshold: 30,
   cacheDirectory: "./tmp",
   setupFiles: [],

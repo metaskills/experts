@@ -1,13 +1,5 @@
-import { helperName, helperDeleteAllAssistants } from "./helpers.js";
+import { helperName } from "./helpers.js";
 import { Thread, Assistant, Tool } from "../src/index.js";
-
-beforeEach(async () => {
-  await helperDeleteAllAssistants();
-});
-
-afterEach(async () => {
-  await helperDeleteAllAssistants();
-});
 
 test("can import Thread", async () => {
   const thread = await Thread.create();
