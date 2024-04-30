@@ -4,8 +4,10 @@ const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import { openai } from "../src/openai.js";
 
-const helperName = (use) => {
+const helperName = (use, options = {}) => {
+  const rand = options.rand !== undefined ? options.rand : true;
   const name = `Experts.js (${use})`;
+  if (!rand) return name;
   return `${name} ${Math.random().toString(36).substring(4)}`;
 };
 

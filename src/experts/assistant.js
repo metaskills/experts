@@ -39,7 +39,10 @@ class Assistant {
 
   async init() {
     if (!this.llm) return;
-    this.assistant = await this.reCreate();
+    this.assistant =
+      (await this.findByID()) ||
+      (await this.findByName()) ||
+      (await this.reCreate());
     for (const [_name, tool] of Object.entries(this.assistantsTools)) {
       await tool.init();
     }
@@ -134,6 +137,7 @@ class Assistant {
   async findByID() {
     if (!this.id) return;
     const assistant = await openai.beta.assistants.retrieve(this.id);
+    debug(`💁‍♂️  Found by id ${this.agentName} assistant ${this.id}`);
     return assistant;
   }
 
@@ -141,7 +145,7 @@ class Assistant {
     const assistant = (
       await openai.beta.assistants.list({ limit: "100" })
     ).data.find((a) => a.name === this.agentName);
-    debug(`💁‍♂️  Found assistant: ${this.agentName}`);
+    debug(`💁‍♂️  Found by name ${this.agentName} assistant`);
     return assistant;
   }
 
@@ -158,7 +162,7 @@ class Assistant {
       metadata: this._metadata,
       response_format: this.response_format,
     });
-    debug(`💁‍♂️ Created ${this.agentName} assistant ${assistant.id}...`);
+    debug(`💁‍♂️ Created ${this.agentName} assistant ${assistant.id}`);
     return assistant;
   }
 

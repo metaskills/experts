@@ -10,9 +10,14 @@ import {
 import {
   TestAssistant,
   EchoAssistant,
+  EchoAssistantWithSetNameAndIdOption,
   OddFactsAssistant,
   RouterAssistant,
 } from "../fixtures.js";
+
+beforeEach(() => {
+  delete process.env.TEST_ECHO_TOOL_ID;
+});
 
 test("assistant as tool", async () => {
   const assistant = await RouterAssistant.create();
@@ -45,6 +50,17 @@ test("can ask the assistant a question using a thread id", async () => {
   const threadID = await helperThreadID();
   const output = await assistant.ask("hello 123", threadID);
   expect(output).toBe("hello 123");
+});
+
+test("can use environment variables to find an assistant by id", async () => {
+  const assistant = await EchoAssistantWithSetNameAndIdOption.create();
+  // Will find the same assistant by name.
+  const assistant2 = await EchoAssistantWithSetNameAndIdOption.create();
+  expect(assistant.id).toBe(assistant2.id);
+  // Will find by id.
+  process.env.TEST_ECHO_TOOL_ID = assistant2.id;
+  const assistant3 = await EchoAssistantWithSetNameAndIdOption.create();
+  expect(assistant2.id).toBe(assistant3.id);
 });
 
 test("can configure various options", async () => {
