@@ -14,6 +14,10 @@ const helperPath = (filePath) => {
   return path.join(base, filePath);
 };
 
+const helperThread = async (threadID) => {
+  return await openai.beta.threads.retrieve(threadID);
+};
+
 const helperThreadID = async () => {
   const thread = await openai.beta.threads.create();
   return thread.id;
@@ -66,6 +70,7 @@ const helperDeleteAllVectorStores = async () => {
 export {
   helperName,
   helperPath,
+  helperThread,
   helperThreadID,
   helperDeleteAllAssistants,
   helperFindAssistant,
