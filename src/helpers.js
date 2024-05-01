@@ -7,6 +7,17 @@ const debug = (message) => {
   }
 };
 
+const messagesContent = (messages) => {
+  return messages
+    .map((m) => {
+      return m.content
+        .filter((c) => c.type === "text")
+        .map((c) => c.text.value)
+        .join("\n\n");
+    })
+    .join("\n\n");
+};
+
 const formatToolOutputs = (outputs) => {
   const result = outputs.map((item) => {
     if (typeof item === "string") {
@@ -18,4 +29,4 @@ const formatToolOutputs = (outputs) => {
   return result.join("\n\n");
 };
 
-export { debug, isDebug, formatToolOutputs };
+export { debug, isDebug, messagesContent, formatToolOutputs };

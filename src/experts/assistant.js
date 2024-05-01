@@ -1,7 +1,6 @@
 import { openai } from "../openai.js";
 import { debug, formatToolOutputs } from "../helpers.js";
 import { Thread } from "./thread.js";
-import { Message } from "./messages.js";
 import { Run } from "./run.js";
 
 class Assistant {
@@ -9,11 +8,6 @@ class Assistant {
     const asst = new this();
     await asst.init();
     return asst;
-  }
-
-  static async delete() {
-    const asst = new this();
-    await asst.deleteByName();
   }
 
   constructor(agentName, description, instructions, options = {}) {
@@ -62,15 +56,19 @@ class Assistant {
     return this.assistant.metadata;
   }
 
-  // Messages: Asking and access.
+  // Interface
 
   async ask(message, threadID) {
     return await this.askAssistant(message, threadID);
   }
 
-  get lastMessageContent() {
-    return this.messages[0].content;
-  }
+  // Run Event Overrides
+
+  onEvent(event) {}
+
+  onTextDelta(delta, snapshot) {}
+
+  onToolCallDelta(delta, snapshot) {}
 
   // Tool Assistant
 
@@ -84,43 +82,26 @@ class Assistant {
     }
   }
 
-  // Tool Outputs: Used for response pass-thru.
-
-  get isAssistantsToolsOutputs() {
-    return (
-      this.assistantsToolsOutputs && this.assistantsToolsOutputs.length > 0
-    );
-  }
-
-  addAssistantsToolsOutputs(output) {
-    this.assistantsToolsOutputs.push(output);
-  }
-
-  clearAssistantsToolsOutputs() {
-    if (this.isAssistantsToolsOutputs) {
-      this.assistantsToolsOutputs.length = 0;
-    }
-  }
-
   // Private
 
   async askAssistant(message, threadID) {
     if (!this.llm) return;
-    this.clearAssistantsToolsOutputs();
     let thread = await Thread.find(threadID);
     if (this.isTool && this.hasToolThread) {
       thread = await thread.toolThread(this);
     }
-    const _msg = await Message.createForAssistant(this, message, thread);
-    const run = await Run.createForAssistant(this, thread);
-    let output = await run.actions();
+    const messageContent =
+      typeof message === "string" ? message : JSON.stringify(message);
+    debug("💌 " + JSON.stringify(messageContent));
+    await openai.beta.threads.messages.create(thread.id, {
+      role: "user",
+      content: messageContent,
+    });
+    const run = await Run.streamForAssistant(this, thread);
+    let output = await run.wait();
     if (this.isTool) {
       if (this.llm && this.ignoreLLMToolOutput) {
         output = "";
-      }
-    } else {
-      if (this.isAssistantsToolsOutputs) {
-        output = formatToolOutputs(this.assistantsToolsOutputs);
       }
     }
     debug(`🤖 ${output}`);
@@ -128,11 +109,6 @@ class Assistant {
   }
 
   // Private (Lifecycle)
-
-  async reCreate() {
-    const assistant = (await this.deleteByName()) || (await this.create());
-    return assistant;
-  }
 
   async findByID() {
     if (!this.id) return;
@@ -146,6 +122,11 @@ class Assistant {
       await openai.beta.assistants.list({ limit: "100" })
     ).data.find((a) => a.name === this.agentName);
     debug(`💁‍♂️  Found by name ${this.agentName} assistant`);
+    return assistant;
+  }
+
+  async reCreate() {
+    const assistant = (await this.deleteByName()) || (await this.create());
     return assistant;
   }
 

@@ -1,6 +1,5 @@
 import { debug } from "../helpers.js";
 import { openai } from "../openai.js";
-import { Message } from "./messages.js";
 
 class Thread {
   static async find(threadID) {
@@ -48,26 +47,6 @@ class Thread {
       thread = await Thread.find(threadID);
     }
     return thread;
-  }
-
-  async assistantMessageContent() {
-    const message = await this.assistantMessage();
-    return await message.assistantContent();
-  }
-
-  // Private
-
-  // Only called after a completed run or submitting tool outputs.
-  // TODO: Likely will be moot with streaming and need new approach.
-  //
-  async assistantMessage() {
-    const options = { limit: 1 };
-    const messages = await openai.beta.threads.messages.list(this.id, options);
-    const message = new Message(messages.data[0], this);
-    if (!message.isAssistant) {
-      throw new Error("ExpectedAssistantMessageError");
-    }
-    return message;
   }
 }
 

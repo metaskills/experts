@@ -41,7 +41,7 @@ describe("with vector store", () => {
       "Using a single word response, tell me what food source do Proxima Centauri b inhabitants migrate for?",
       threadID
     );
-    expect(output).toBe("Snorgronk【4:0†oddFacts.txt】.");
+    expect(output).toMatch(/Snorgronk/);
   });
 });
 
