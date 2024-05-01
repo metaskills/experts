@@ -85,6 +85,14 @@ class Assistant {
     this.eventEmitter.emit("toolCallDelta", delta, snapshot);
   }
 
+  onRunStepDone(runStep) {
+    this.eventEmitter.emit("runStepDone", runStep);
+  }
+
+  onToolCallDone(toolCall) {
+    this.eventEmitter.emit("toolCallDone", toolCall);
+  }
+
   // Tool Assistant
 
   addAssistantTool(toolClass) {

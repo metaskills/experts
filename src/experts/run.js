@@ -22,6 +22,8 @@ class Run {
     stream.on("event", (e) => this.onEvent(e));
     stream.on("textDelta", (td, s) => this.onTextDelta(td, s));
     stream.on("toolCallDelta", (tcd, s) => this.onToolCallDelta(tcd, s));
+    stream.on("runStepDone", (rs) => this.onRunStepDone(rs));
+    stream.on("toolCallDone", (tc) => this.onToolCallDone(tc));
     this.toolOutputs = [];
     this.isToolOuputs = false;
   }
@@ -82,6 +84,14 @@ class Run {
 
   onToolCallDelta(delta, snapshot) {
     this.assistant.onToolCallDelta(delta, snapshot);
+  }
+
+  onRunStepDone(runStep) {
+    this.assistant.onRunStepDone(runStep);
+  }
+
+  onToolCallDone(toolCall) {
+    this.assistant.onToolCallDone(toolCall);
   }
 
   // Private (Tools)
