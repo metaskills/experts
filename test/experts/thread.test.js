@@ -9,10 +9,10 @@ test("creates a thread", async () => {
 
 test("can add metadata for various tracking purposes", async () => {
   let thread = await Thread.create();
-  await thread.addMetaData("somekey", "somevalue");
+  await thread.addMetaData({ somekey: "somevalue" });
   thread = await Thread.find(thread.id);
   expect(thread.metadata).toStrictEqual({ somekey: "somevalue" });
-  await thread.addMetaData("one", "two");
+  await thread.addMetaData({ one: "two" });
   thread = await Thread.find(thread.id);
   expect(thread.metadata).toStrictEqual({ somekey: "somevalue", one: "two" });
 });

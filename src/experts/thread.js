@@ -27,10 +27,10 @@ class Thread {
     return this.thread.metadata;
   }
 
-  async addMetaData(key, value) {
-    this.metadata[key] = value;
+  async addMetaData(metadata) {
+    const newMetaData = { ...this.metadata, ...metadata };
     await openai.beta.threads.update(this.id, {
-      metadata: this.metadata,
+      metadata: newMetaData,
     });
     debug("🧵 Update: " + JSON.stringify(this.thread));
   }
@@ -41,8 +41,8 @@ class Thread {
     const threadID = this.thread.metadata[threadKey];
     if (!threadID) {
       thread = await Thread.create();
-      await this.addMetaData(threadKey, thread.id);
-      await thread.addMetaData("tool", tool.agentName);
+      await this.addMetaData({ threadKey: thread.id });
+      await thread.addMetaData({ tool: tool.agentName });
     } else {
       thread = await Thread.find(threadID);
     }
