@@ -14,9 +14,8 @@ class OddFactsAssistant extends Assistant {
     });
   }
 
-  async init() {
+  async beforeInit() {
     await this._createFileSearch();
-    await super.init();
   }
 
   async _createFileSearch() {

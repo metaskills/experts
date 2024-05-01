@@ -1,5 +1,5 @@
 import { openai } from "../openai.js";
-import { debug, formatToolOutputs } from "../helpers.js";
+import { debug } from "../helpers.js";
 import { Thread } from "./thread.js";
 import { Run } from "./run.js";
 
@@ -32,6 +32,7 @@ class Assistant {
   }
 
   async init() {
+    await this.beforeInit();
     if (!this.llm) return;
     this.assistant =
       (await this.findByID()) ||
@@ -62,6 +63,8 @@ class Assistant {
     return await this.askAssistant(message, threadID);
   }
 
+  async beforeInit() {}
+
   // Run Event Overrides
 
   onEvent(event) {}
@@ -82,7 +85,7 @@ class Assistant {
     }
   }
 
-  // Private
+  // Private (Ask)
 
   async askAssistant(message, threadID) {
     if (!this.llm) return;

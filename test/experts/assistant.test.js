@@ -69,7 +69,7 @@ test("can configure various options", async () => {
     file: fs.createReadStream(path),
     purpose: "assistants",
   });
-  const assistant = await TestAssistant.initWithOptions({
+  const assistant = await TestAssistant.createWithOptions({
     metadata: { foo: "bar" },
     temperature: 0.5,
     top_p: 0.5,

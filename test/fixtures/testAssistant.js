@@ -10,7 +10,7 @@ class TestAssistant extends Assistant {
     this._name = value;
   }
 
-  static async initWithOptions(options = {}) {
+  static async createWithOptions(options = {}) {
     const asst = new this(options);
     await asst.init();
     return asst;

@@ -14,9 +14,8 @@ class DataTool extends Tool {
     });
   }
 
-  async init() {
+  async beforeInit() {
     await this._createDataFile();
-    await super.init();
   }
 
   async _createDataFile() {

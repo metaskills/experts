@@ -18,15 +18,4 @@ const messagesContent = (messages) => {
     .join("\n\n");
 };
 
-const formatToolOutputs = (outputs) => {
-  const result = outputs.map((item) => {
-    if (typeof item === "string") {
-      return item;
-    } else {
-      return JSON.stringify(item);
-    }
-  });
-  return result.join("\n\n");
-};
-
-export { debug, isDebug, messagesContent, formatToolOutputs };
+export { debug, isDebug, messagesContent };
