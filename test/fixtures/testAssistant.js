@@ -1,4 +1,3 @@
-import { helperName } from "../helpers.js";
 import { Assistant } from "../../src/experts/assistant.js";
 
 class TestAssistant extends Assistant {

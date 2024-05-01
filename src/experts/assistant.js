@@ -2,6 +2,7 @@ import { openai } from "../openai.js";
 import { debug } from "../helpers.js";
 import { Thread } from "./thread.js";
 import { Run } from "./run.js";
+import { EventEmitter } from "events";
 
 class Assistant {
   static async create() {
@@ -14,6 +15,7 @@ class Assistant {
     this.agentName = agentName;
     this.description = description;
     this.instructions = instructions;
+    this.eventEmitter = new EventEmitter();
     this.llm = options.llm !== undefined ? options.llm : true;
     if (this.llm) {
       this.id = options.id;
@@ -65,13 +67,23 @@ class Assistant {
 
   async beforeInit() {}
 
-  // Run Event Overrides
+  // Run Events
 
-  onEvent(event) {}
+  on(event, listener) {
+    this.eventEmitter.on(event, listener);
+  }
 
-  onTextDelta(delta, snapshot) {}
+  onEvent(event) {
+    this.eventEmitter.emit("event", event);
+  }
 
-  onToolCallDelta(delta, snapshot) {}
+  onTextDelta(delta, snapshot) {
+    this.eventEmitter.emit("textDelta", delta, snapshot);
+  }
+
+  onToolCallDelta(delta, snapshot) {
+    this.eventEmitter.emit("toolCallDelta", delta, snapshot);
+  }
 
   // Tool Assistant
 

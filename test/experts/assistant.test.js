@@ -89,7 +89,7 @@ test("can configure various options", async () => {
   });
 });
 
-test("create new assistant using name, description, and instruction defaults", async () => {
+test.only("create new assistant using name, description, and instruction defaults", async () => {
   // None exists before creation.
   const name = helperName("Test");
   TestAssistant.name = name;
