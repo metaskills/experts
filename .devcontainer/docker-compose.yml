@@ -1,0 +1,37 @@
+services:
+  experts:
+    build: { context: ., dockerfile: Dockerfile }
+    command: sleep infinity
+    user: vscode
+    depends_on:
+      opensearch: { condition: service_started }
+  opensearch:
+    image: public.ecr.aws/opensearchproject/opensearch:2.11.0
+    environment:
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch-node1
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+    restart: unless-stopped
+    ports:
+      - 9200:9200
+      - 9600:9600
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:2.11.0
+    restart: unless-stopped
+    ports:
+      - 5601:5601
+    environment:
+      OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
+volumes:
+  opensearch-data:

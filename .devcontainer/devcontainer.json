@@ -1,9 +1,7 @@
 {
-  "name": "unremarkable-ideaogram-assistant",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": "."
-  },
+  "name": "experts",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "experts",
   "containerEnv": {
     "NODE_ENV": "development",
     "NODE_OPTIONS": "--no-warnings --experimental-vm-modules",
@@ -23,5 +21,10 @@
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {}
   },
-  "remoteUser": "vscode"
+  "forwardPorts": [9200, 9600, 5173, 5601, 3000],
+  "remoteUser": "vscode",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind,consistency=cached"
+  ]
 }
