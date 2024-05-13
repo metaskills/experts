@@ -1,4 +1,4 @@
-import { debug, messagesContent } from "../helpers.js";
+import { debug, debugEvent, messagesContent } from "../helpers.js";
 import { openai } from "../openai.js";
 
 class Run {
@@ -14,6 +14,7 @@ class Run {
     this.assistant = assistant;
     this.thread = thread;
     this.stream = stream;
+    this.toolOutputs = [];
   }
 
   set stream(stream) {
@@ -21,10 +22,12 @@ class Run {
     this.run = stream.currentRun();
     stream.on("event", (e) => this.onEvent(e));
     stream.on("textDelta", (td, s) => this.onTextDelta(td, s));
+    stream.on("textDone", (td, s) => this.onTextDone(td, s));
+    stream.on("imageFileDone", (ifd, s) => this.onImageFileDone(ifd, s));
     stream.on("toolCallDelta", (tcd, s) => this.onToolCallDelta(tcd, s));
     stream.on("runStepDone", (rs) => this.onRunStepDone(rs));
     stream.on("toolCallDone", (tc) => this.onToolCallDone(tc));
-    this.toolOutputs = [];
+    stream.on("end", () => this.onEnd());
     this.isToolOuputs = false;
   }
 
@@ -71,27 +74,43 @@ class Run {
     }
   }
 
-  // Private (Stream Event Handlers)
+  // Private (Event Handlers)
 
   onEvent(event) {
-    debug(`📡 Event: ${JSON.stringify(event)}`);
-    this.assistant.onEvent(event);
+    debugEvent(event);
+    this.assistant._onEvent(event, this.onMetaData);
   }
 
   onTextDelta(delta, snapshot) {
-    this.assistant.onTextDelta(delta, snapshot);
+    this.assistant._onTextDelta(delta, snapshot, this.onMetaData);
+  }
+
+  onTextDone(content, snapshot) {
+    this.assistant._onTextDone(content, snapshot, this.onMetaData);
+  }
+
+  onImageFileDone(content, snapshot) {
+    this.assistant._onImageFileDone(content, snapshot, this.onMetaData);
   }
 
   onToolCallDelta(delta, snapshot) {
-    this.assistant.onToolCallDelta(delta, snapshot);
+    this.assistant._onToolCallDelta(delta, snapshot, this.onMetaData);
   }
 
   onRunStepDone(runStep) {
-    this.assistant.onRunStepDone(runStep);
+    this.assistant._onRunStepDone(runStep, this.onEventMetaData);
   }
 
   onToolCallDone(toolCall) {
-    this.assistant.onToolCallDone(toolCall);
+    this.assistant._onToolCallDone(toolCall, this.onMetaData);
+  }
+
+  onEnd() {
+    this.assistant._onEnd(this.onMetaData);
+  }
+
+  get onMetaData() {
+    return { assistant: this.assistant };
   }
 
   // Private (Tools)
@@ -124,12 +143,21 @@ class Run {
     this.stream = await openai.beta.threads.runs.submitToolOutputsStream(
       this.threadID,
       this.id,
-      {
-        tool_outputs: this.toolOutputs,
-      }
+      { tool_outputs: this.toolOutputs }
     );
     const output = await this.wait();
+    await this.assistant.eventEmitter.waitFor("end");
+    await this.submitToolOutputsToAssistant();
     return output;
+  }
+
+  async submitToolOutputsToAssistant() {
+    // console.log("[DEBUG] this.toolOutputs1:\n", this.toolOutputs);
+    if (this.assistant.isTool && this.assistant.outputs === "tools") {
+      this.toolOutputs.forEach((to) => {
+        this.assistant.addToolsOutputs(to.output);
+      });
+    }
   }
 }
 

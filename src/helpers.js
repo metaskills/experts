@@ -1,10 +1,16 @@
 const DEBUG = process.env.DEBUG === "1";
-const isDebug = DEBUG;
+const DEBUG_DELTAS = process.env.DEBUG_DELTAS === "1";
 
 const debug = (message) => {
-  if (isDebug) {
+  if (DEBUG) {
     console.log(message);
   }
+};
+
+const debugEvent = (event) => {
+  if (!DEBUG) return;
+  if (event.event.includes("delta") && !DEBUG_DELTAS) return;
+  debug(`📡 Event: ${JSON.stringify(event)}`);
 };
 
 const messagesContent = (messages) => {
@@ -18,4 +24,4 @@ const messagesContent = (messages) => {
     .join("\n\n");
 };
 
-export { debug, isDebug, messagesContent };
+export { debug, debugEvent, messagesContent };

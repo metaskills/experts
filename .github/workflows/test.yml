@@ -16,6 +16,7 @@ jobs:
       - name: Test
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          POST_IMAGES_API_KEY: ${{ secrets.POST_IMAGES_API_KEY }}
         run: |
           ./bin/setup
           ./bin/test

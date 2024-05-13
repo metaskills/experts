@@ -1,3 +1,5 @@
+import fs from "fs";
+import ejs from "ejs";
 import url from "url";
 import path from "path";
 const __filename = url.fileURLToPath(import.meta.url);
@@ -14,6 +16,14 @@ const helperName = (use, options = {}) => {
 const helperPath = (filePath) => {
   const base = path.resolve(__dirname, "..");
   return path.join(base, filePath);
+};
+
+const helperInstructions = (file, context = {}) => {
+  const template = fs.readFileSync(
+    helperPath(`test/fixtures/${file}`),
+    "utf-8"
+  );
+  return ejs.render(template, context);
 };
 
 const helperThread = async (threadID) => {
@@ -73,6 +83,7 @@ export {
   helperName,
   helperPath,
   helperThread,
+  helperInstructions,
   helperThreadID,
   helperDeleteAllAssistants,
   helperFindAssistant,

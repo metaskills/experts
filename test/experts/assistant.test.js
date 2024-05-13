@@ -3,63 +3,24 @@ import { openai } from "../../src/openai.js";
 import {
   helperName,
   helperPath,
-  helperThread,
-  helperThreadID,
   helperFindAssistant,
+  helperThreadID,
 } from "../helpers.js";
-import {
-  TestAssistant,
-  EchoAssistant,
-  EchoAssistantWithSetNameAndIdOption,
-  OddFactsAssistant,
-  RouterAssistant,
-} from "../fixtures.js";
+import { TestAssistant, TestIDAssistant } from "../fixtures.js";
+import { Thread } from "../../src/experts/thread.js";
 
 beforeEach(() => {
-  delete process.env.TEST_ECHO_TOOL_ID;
-});
-
-test("assistant as tool", async () => {
-  const assistant = await RouterAssistant.create();
-  const threadID = await helperThreadID();
-  const output = await assistant.ask("i need sales help", threadID);
-  expect(output).toMatch(/unrouteable/);
-  const output2 = await assistant.ask("/echo 123 hello", threadID);
-  expect(output2).toMatch(/123 hello/);
-  // Ensure each has own tread using metadata links.
-  const thread = await helperThread(threadID);
-  expect(thread.metadata.echo).toMatch(/thread_/);
-  const thread2 = await helperThread(thread.metadata.echo);
-  expect(thread2.metadata.tool).toMatch(/Experts\.js \(EchoTool\)/);
-});
-
-describe("with vector store", () => {
-  test("can provide tools", async () => {
-    const assistant = await OddFactsAssistant.create();
-    const threadID = await helperThreadID();
-    const output = await assistant.ask(
-      "Using a single word response, tell me what food source do Proxima Centauri b inhabitants migrate for?",
-      threadID
-    );
-    expect(output).toMatch(/Snorgronk/);
-  });
-});
-
-test("can ask the assistant a question using a thread id", async () => {
-  const assistant = await EchoAssistant.create();
-  const threadID = await helperThreadID();
-  const output = await assistant.ask("hello 123", threadID);
-  expect(output).toBe("hello 123");
+  delete process.env.TEST_ASSISTANT_ID;
 });
 
 test("can use environment variables to find an assistant by id", async () => {
-  const assistant = await EchoAssistantWithSetNameAndIdOption.create();
+  const assistant = await TestIDAssistant.create();
   // Will find the same assistant by name.
-  const assistant2 = await EchoAssistantWithSetNameAndIdOption.create();
+  const assistant2 = await TestIDAssistant.create();
   expect(assistant.id).toBe(assistant2.id);
   // Will find by id.
-  process.env.TEST_ECHO_TOOL_ID = assistant2.id;
-  const assistant3 = await EchoAssistantWithSetNameAndIdOption.create();
+  process.env.TEST_ASSISTANT_ID = assistant2.id;
+  const assistant3 = await TestIDAssistant.create();
   expect(assistant2.id).toBe(assistant3.id);
 });
 
@@ -89,7 +50,7 @@ test("can configure various options", async () => {
   });
 });
 
-test.only("create new assistant using name, description, and instruction defaults", async () => {
+test("create new assistant using name, description, and instruction defaults", async () => {
   // None exists before creation.
   const name = helperName("Test");
   TestAssistant.name = name;
@@ -116,4 +77,14 @@ test.only("create new assistant using name, description, and instruction default
   expect(backendAssistant.temperature).toBe(1.0);
   expect(backendAssistant.metadata).toStrictEqual({});
   expect(backendAssistant.id).toMatch(/^asst_/);
+});
+
+test("assistants store metadata in the thread", async () => {
+  const threadID = await helperThreadID();
+  const assistant = await TestAssistant.createWithOptions({
+    instructions: "Only say hello.",
+  });
+  await assistant.ask("Hello", threadID);
+  const thread = await Thread.find(threadID);
+  expect(thread.metadata.assistant).toBe(assistant.agentName);
 });

@@ -11,21 +11,28 @@
     "./tool": "./src/tool.js"
   },
   "scripts": {
+    "setup": "./bin/setup",
     "test": "./bin/test"
   },
   "author": "Ken COllins",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.24.4",
+    "@opensearch-project/opensearch": "^2.7.0",
+    "axios": "^1.6.8",
     "babel-jest": "^29.7.0",
+    "ejs": "^3.1.10",
+    "file-type": "^19.0.0",
     "jest": "^29.7.0",
-    "jest-environment-node": "^29.7.0"
+    "jest-environment-node": "^29.7.0",
+    "p-queue": "^7.4.1"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/metaskills/experts"
   },
   "dependencies": {
-    "openai": "^4.38.5"
+    "eventemitter2": "^6.4.9",
+    "openai": "^4.43.0"
   }
 }

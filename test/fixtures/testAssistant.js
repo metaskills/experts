@@ -1,3 +1,4 @@
+import { helperName } from "../helpers.js";
 import { Assistant } from "../../src/experts/assistant.js";
 
 class TestAssistant extends Assistant {
@@ -20,4 +21,13 @@ class TestAssistant extends Assistant {
   }
 }
 
-export { TestAssistant };
+class TestIDAssistant extends Assistant {
+  constructor() {
+    const name = helperName("Test", { rand: false });
+    super(name, "test-description", "test-instructions", {
+      id: process.env.TEST_ASSISTANT_ID,
+    });
+  }
+}
+
+export { TestAssistant, TestIDAssistant };

@@ -2,3 +2,5 @@
 set -e
 
 npm install
+node test/products/create.js
+node test/products/index.js

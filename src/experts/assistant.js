@@ -2,7 +2,8 @@ import { openai } from "../openai.js";
 import { debug } from "../helpers.js";
 import { Thread } from "./thread.js";
 import { Run } from "./run.js";
-import { EventEmitter } from "events";
+import EventEmitter2Pkg from "eventemitter2";
+const { EventEmitter2 } = EventEmitter2Pkg;
 
 class Assistant {
   static async create() {
@@ -15,7 +16,6 @@ class Assistant {
     this.agentName = agentName;
     this.description = description;
     this.instructions = instructions;
-    this.eventEmitter = new EventEmitter();
     this.llm = options.llm !== undefined ? options.llm : true;
     if (this.llm) {
       this.id = options.id;
@@ -30,6 +30,7 @@ class Assistant {
       this.tool_resources = options.tool_resources || {};
       this._metadata = options.metadata;
       this.response_format = options.response_format || "auto";
+      this.eventEmitter = new EventEmitter2();
     }
   }
 
@@ -62,35 +63,18 @@ class Assistant {
   // Interface
 
   async ask(message, threadID) {
-    return await this.askAssistant(message, threadID);
+    const output = await this._askAssistant(message, threadID);
+    return await this.answered(output);
+  }
+
+  async answered(output) {
+    return output;
   }
 
   async beforeInit() {}
 
-  // Run Events
-
-  on(event, listener) {
-    this.eventEmitter.on(event, listener);
-  }
-
-  onEvent(event) {
-    this.eventEmitter.emit("event", event);
-  }
-
-  onTextDelta(delta, snapshot) {
-    this.eventEmitter.emit("textDelta", delta, snapshot);
-  }
-
-  onToolCallDelta(delta, snapshot) {
-    this.eventEmitter.emit("toolCallDelta", delta, snapshot);
-  }
-
-  onRunStepDone(runStep) {
-    this.eventEmitter.emit("runStepDone", runStep);
-  }
-
-  onToolCallDone(toolCall) {
-    this.eventEmitter.emit("toolCallDone", toolCall);
+  async on(event, listener) {
+    await this.eventEmitter.on(event, listener);
   }
 
   // Tool Assistant
@@ -107,11 +91,18 @@ class Assistant {
 
   // Private (Ask)
 
-  async askAssistant(message, threadID) {
+  async _askAssistant(message, threadID) {
     if (!this.llm) return;
+    this.clearToolsOutputs();
     let thread = await Thread.find(threadID);
-    if (this.isTool && this.hasToolThread) {
-      thread = await thread.toolThread(this);
+    if (this.isTool) {
+      if (this.hasThread) {
+        thread = await thread.toolThread(this);
+      }
+    } else {
+      if (!thread.hasAssistantMetadata) {
+        thread.addMetaData({ assistant: this.agentName });
+      }
     }
     const messageContent =
       typeof message === "string" ? message : JSON.stringify(message);
@@ -123,12 +114,79 @@ class Assistant {
     const run = await Run.streamForAssistant(this, thread);
     let output = await run.wait();
     if (this.isTool) {
-      if (this.llm && this.ignoreLLMToolOutput) {
-        output = "";
+      switch (this.outputs) {
+        case "ignored":
+          output = "";
+          break;
+        case "tools":
+          // console.log("_askAssistant:", this.agentName);
+          // console.log("_askAssistant:", this.assistantsToolsOutputs);
+          output = this.assistantsToolsOutputs.join("\n\n");
+        default:
+          break;
       }
     }
     debug(`🤖 ${output}`);
     return output;
+  }
+
+  // Private (Tool Outputs)
+
+  get outputs() {
+    return this._outputs || "default";
+  }
+
+  set outputs(outputs) {
+    const validOutputs = ["default", "ignored", "tools"];
+    if (validOutputs.includes(outputs)) {
+      this._outputs = outputs;
+    } else {
+      throw new Error(`Invalid outputs name: ${outputs}`);
+    }
+  }
+
+  addToolsOutputs(output) {
+    this.assistantsToolsOutputs.push(output);
+  }
+
+  clearToolsOutputs() {
+    if (this.assistantsToolsOutputs?.length > 0) {
+      this.assistantsToolsOutputs.length = 0;
+    }
+  }
+
+  // Private (Event Handlers)
+
+  _onEvent(event, metadata) {
+    this.eventEmitter.emit("event", event, metadata);
+  }
+
+  _onTextDelta(delta, snapshot, metadata) {
+    this.eventEmitter.emit("textDelta", delta, snapshot, metadata);
+  }
+
+  _onTextDone(content, snapshot, metadata) {
+    this.eventEmitter.emit("textDone", content, snapshot, metadata);
+  }
+
+  _onImageFileDone(content, snapshot, metadata) {
+    this.eventEmitter.emit("imageFileDone", content, snapshot, metadata);
+  }
+
+  _onToolCallDelta(delta, snapshot, metadata) {
+    this.eventEmitter.emit("toolCallDelta", delta, snapshot, metadata);
+  }
+
+  _onRunStepDone(runStep, metadata) {
+    this.eventEmitter.emit("runStepDone", runStep, metadata);
+  }
+
+  _onToolCallDone(toolCall, metadata) {
+    this.eventEmitter.emit("toolCallDone", toolCall, metadata);
+  }
+
+  _onEnd(metadata) {
+    this.eventEmitter.emit("end", metadata);
   }
 
   // Private (Lifecycle)
