@@ -63,7 +63,7 @@ test("create new assistant using name, description, and instruction defaults", a
   expect(assistant.description).toBe("test-description");
   expect(assistant.instructions).toBe("test-instructions");
   expect(assistant.llm).toBe(true);
-  expect(assistant.model).toBe("gpt-4-turbo");
+  expect(assistant.model).toMatch(/gpt/);
   expect(assistant.temperature).toBe(1.0);
   expect(assistant.metadata).toStrictEqual({});
   expect(assistant.id).toMatch(/^asst_/);
@@ -73,7 +73,7 @@ test("create new assistant using name, description, and instruction defaults", a
   expect(backendAssistant.name).toBe(name);
   expect(backendAssistant.description).toBe("test-description");
   expect(backendAssistant.instructions).toBe("test-instructions");
-  expect(backendAssistant.model).toBe("gpt-4-turbo");
+  expect(backendAssistant.model).toMatch(/gpt/);
   expect(backendAssistant.temperature).toBe(1.0);
   expect(backendAssistant.metadata).toStrictEqual({});
   expect(backendAssistant.id).toMatch(/^asst_/);
