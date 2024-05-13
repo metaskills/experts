@@ -35,7 +35,7 @@ class AnswerToolOne extends Tool {
     const name = helperName("AnswerToolOne");
     const description = "Answers to messages.";
     const instructions =
-      "Never answer questions directly. You must route all messages in full to your single answer tool. Respond only with the single word 'Success' to the question.";
+      "You must route the message in full to your answer tool. Never respond without first using that tool. Ex: What is my favorite food. Lastly, tespond only with the single word 'Success' to the question.";
     super(name, description, instructions, {
       temperature: 0.1,
       outputs: "tools", // THIS: Focus of the test. Combined with only success response.
@@ -63,7 +63,7 @@ class OutputsAssistant extends Assistant {
     const name = helperName("OutputsAssistant");
     const description = "Answers to messages.";
     const instructions =
-      "Never answer questions directly. You must route all messages in full to your single answer tool.";
+      "You must route the message in full to your answer tool. Never respond without first using that tool. Ex: What is my favorite food.";
     super(name, description, instructions, {
       temperature: 0.1,
     });

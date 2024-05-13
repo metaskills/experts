@@ -8,6 +8,7 @@ class AnswerTool extends Tool {
     const instructions = description;
     super(name, description, instructions, {
       llm: false,
+      temperature: 0.1,
       parentsTools: [
         {
           type: "function",
@@ -35,7 +36,7 @@ class NoLLMToolAssistant extends Assistant {
     const name = helperName("NoLLMToolAssistant");
     const description = "Answers to messages.";
     const instructions =
-      "Never answer questions directly. You must route all messages in full to your single answer tool.";
+      "You must route the message in full to your answer tool. Never respond without first using that tool. Never! Ex: When asked what color the sky is, use the answer tool first.";
     super(name, description, instructions);
     this.addAssistantTool(AnswerTool);
   }

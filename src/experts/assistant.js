@@ -19,7 +19,8 @@ class Assistant {
     this.llm = options.llm !== undefined ? options.llm : true;
     if (this.llm) {
       this.id = options.id;
-      this.model = options.model || "gpt-4-turbo";
+      this.model =
+        options.model || process.env.EXPERTS_DEFAULT_MODEL || "gpt-4o";
       this.messages = [];
       this.temperature =
         options.temperature !== undefined ? options.temperature : 1.0;
