@@ -4,7 +4,7 @@ services:
     command: sleep infinity
     user: vscode
     environment:
-      - OPENSEARCH_HOST=opensearch
+      - OPENSEARCH_URL=https://admin:admin@opensearch:9200
     depends_on:
       opensearch: { condition: service_started }
   opensearch:
