@@ -3,7 +3,7 @@ import { Assistant } from "../../src/experts/assistant.js";
 
 class TestAssistant extends Assistant {
   static get name() {
-    return this._name;
+    return this._name || "TestAssistant";
   }
 
   static set name(value) {
