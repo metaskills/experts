@@ -13,6 +13,61 @@ beforeEach(() => {
   delete process.env.TEST_ASSISTANT_ID;
 });
 
+test("send images with messages image_file", async () => {
+  const path = helperPath("test/fixtures/unremarkable-banner.png");
+  const file = await openai.files.create({
+    file: fs.createReadStream(path),
+    purpose: "vision",
+  });
+  const assistant = await TestAssistant.create();
+  const threadID = await helperThreadID();
+  const output = await assistant.ask(
+    {
+      role: "user",
+      content: [
+        {
+          type: "text",
+          text: "What is the tagline for this AI consultancy?",
+        },
+        {
+          type: "image_file",
+          image_file: {
+            file_id: file.id,
+            detail: "high",
+          },
+        },
+      ],
+    },
+    threadID
+  );
+  expect(output).toMatch(/TOMORROW'S AI, MADE TODAY!/i);
+});
+
+test("send images with messages with image_url", async () => {
+  const assistant = await TestAssistant.create();
+  const threadID = await helperThreadID();
+  const output = await assistant.ask(
+    {
+      role: "user",
+      content: [
+        {
+          type: "text",
+          text: "What is the tagline for this AI consultancy?",
+        },
+        {
+          type: "image_url",
+          image_url: {
+            url: "https://raw.githubusercontent.com/metaskills/metaskills/master/unremarkable-banner.png",
+            detail: "high",
+          },
+        },
+      ],
+    },
+    threadID
+  );
+  expect(output).toMatch(/TOMORROW'S AI, MADE TODAY!/i);
+});
+
 test("send multiple messages as true message objects", async () => {
   const assistant = await TestAssistant.create();
   const threadID = await helperThreadID();
