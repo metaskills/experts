@@ -3,6 +3,8 @@ services:
     build: { context: ., dockerfile: Dockerfile }
     command: sleep infinity
     user: vscode
+    environment:
+      - OPENSEARCH_HOST=opensearch
     depends_on:
       opensearch: { condition: service_started }
   opensearch:
