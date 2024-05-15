@@ -13,6 +13,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
+      - uses: ankane/setup-opensearch@v1
+        with:
+          opensearch-version: 2
       - name: Test
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
