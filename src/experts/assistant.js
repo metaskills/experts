@@ -117,20 +117,26 @@ class Assistant {
     await openai.beta.threads.messages.create(thread.id, apiMessage);
     const run = await Run.streamForAssistant(this, thread);
     let output = await run.wait();
+    output = this.#askOutput(output);
+    output = await this.answered(output);
+    debug(`🤖 ${output}`);
+    return output;
+  }
+
+  #askOutput(output) {
+    let newOutput = output;
     if (this.isTool) {
       switch (this.outputs) {
         case "ignored":
-          output = "";
+          newOutput = "";
           break;
         case "tools":
-          output = this.#expertsOutputs.join("\n\n");
+          newOutput = this.#expertsOutputs.join("\n\n");
         default:
           break;
       }
     }
-    output = await this.answered(output);
-    debug(`🤖 ${output}`);
-    return output;
+    return newOutput;
   }
 
   #askMessage(message) {
