@@ -1,5 +1,5 @@
 export default {
-  bail: 1,
+  bail: 0,
   testEnvironment: "node",
   transform: {},
   testMatch: ["<rootDir>/test/**/*.test.js"],

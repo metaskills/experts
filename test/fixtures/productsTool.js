@@ -46,12 +46,9 @@ class ProductsTool extends Tool {
   }
 
   async imageFileDoneAsync(content, _snapshot, data) {
-    console.log("[DEBUG] Image:", content);
-    console.log("[DEBUG] Assistant:", this.agentName);
     const { fileName, fileData } = await this.fileNameAndData(content);
     const url = await this.postImage(fileName, fileData);
     const imgContent = JSON.stringify({ chart_image_url: url });
-    console.log("[DEBUG] Content:", imgContent);
     this.addExpertOutput(imgContent);
   }
 
