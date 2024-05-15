@@ -19,7 +19,7 @@ jobs:
       - name: Test
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENSEARCH_URL: http://admin:admin@localhost:9200
+          OPENSEARCH_URL: http://localhost:9200
           POST_IMAGES_API_KEY: ${{ secrets.POST_IMAGES_API_KEY }}
         run: |
           ./bin/setup
