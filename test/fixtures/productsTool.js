@@ -1,4 +1,3 @@
-import fs from "fs";
 import FormData from "form-data";
 import axios from "axios";
 import { fileTypeFromBuffer } from "file-type";
@@ -12,8 +11,8 @@ You are part of a product catalog panel of experts that responds to a customer's
 
 Follow these rules:
 
-1. Always use your tools for each message.
-2. When using code interpreter, only use it to generate charts or graphs.
+1. Use your '${ProductsOpenSearchTool.toolName}' to search for product data.
+2. Always use your 'code_interpreter' tool to generate images for charts or graphs.
 3. Respond only with the single word "Success" to the customer.
 `.trim();
 
@@ -43,22 +42,17 @@ class ProductsTool extends Tool {
       ],
     });
     this.addAssistantTool(ProductsOpenSearchTool);
-    // this.on("imageFileDone", this.imageFileDone, { async: true });
-    // this.on("imageFileDone", (c, s, d) => this.imageFileDone(c, s, d));
-    this.on(
-      "imageFileDone",
-      async (c, s, d) => await this.imageFileDone(c, s, d)
-    );
+    this.on("imageFileDoneAsync", this.imageFileDoneAsync.bind(this));
   }
 
-  async imageFileDone(content, _snapshot, data) {
+  async imageFileDoneAsync(content, _snapshot, data) {
     console.log("[DEBUG] Image:", content);
-    console.log("[DEBUG] Assistant:", data.assistant.agentName);
+    console.log("[DEBUG] Assistant:", this.agentName);
     const { fileName, fileData } = await this.fileNameAndData(content);
     const url = await this.postImage(fileName, fileData);
     const imgContent = JSON.stringify({ chart_image_url: url });
     console.log("[DEBUG] Content:", imgContent);
-    data.assistant.addToolsOutputs(imgContent);
+    this.addExpertOutput(imgContent);
   }
 
   async fileNameAndData(content) {

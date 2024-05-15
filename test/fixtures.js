@@ -7,4 +7,4 @@ export { RouterAssistant } from "./fixtures/routerAssistant.js";
 export { ProductsAssistant } from "./fixtures/productsAssistant.js";
 export { NoLLMToolAssistant } from "./fixtures/noLLMToolAssistant.js";
 export { OutputsAssistant } from "./fixtures/outputsAssistant.js";
-export { SyncEventsAssistant } from "./fixtures/syncEventsAssistant.js";
+export { EventedAssistant } from "./fixtures/eventedAssistant.js";

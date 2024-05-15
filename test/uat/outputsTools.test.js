@@ -10,7 +10,7 @@ test("forcing outputs from one tool to another", async () => {
   expect(output).toMatch(/butter/i);
   // Make sure assistant did not hear it from the grapevine.
   const thread = await helperThread(threadID);
-  const threadTool = await helperThread(thread.metadata.answer_tool_one);
+  const threadTool = await helperThread(thread.metadata.answer_one);
   const lastMessages = await openai.beta.threads.messages.list(threadTool.id, {
     limit: 1,
   });

@@ -1,9 +1,9 @@
 import { helperName } from "../helpers.js";
 import { Assistant, Tool } from "../../src/index.js";
 
-class AnswerToolTwo extends Tool {
+class AnswerTwoTool extends Tool {
   constructor() {
-    const name = helperName("AnswerToolTwo");
+    const name = helperName("AnswerTwoTool");
     const description = "Answers to messages.";
     const instructions = description;
     super(name, description, instructions, {
@@ -12,7 +12,7 @@ class AnswerToolTwo extends Tool {
         {
           type: "function",
           function: {
-            name: AnswerToolTwo.toolName,
+            name: AnswerTwoTool.toolName,
             description: description,
             parameters: {
               type: "object",
@@ -30,12 +30,11 @@ class AnswerToolTwo extends Tool {
   }
 }
 
-class AnswerToolOne extends Tool {
+class AnswerOneTool extends Tool {
   constructor() {
-    const name = helperName("AnswerToolOne");
+    const name = helperName("AnswerOneTool");
     const description = "Answers to messages.";
-    const instructions =
-      "You must route the message in full to your answer tool. Never respond without first using that tool. Ex: What is my favorite food. Lastly, tespond only with the single word 'Success' to the question.";
+    const instructions = `You must route the message in full to your '${AnswerTwoTool.toolName}' tool. Never respond without first using that tool. Never! Ex: When asked what is my favorite food, use the '${AnswerTwoTool.toolName}' tool first. Lastly, tespond only with the single word 'Success' to the question.`;
     super(name, description, instructions, {
       temperature: 0.1,
       outputs: "tools", // THIS: Focus of the test. Combined with only success response.
@@ -43,7 +42,7 @@ class AnswerToolOne extends Tool {
         {
           type: "function",
           function: {
-            name: AnswerToolOne.toolName,
+            name: AnswerOneTool.toolName,
             description: description,
             parameters: {
               type: "object",
@@ -54,7 +53,7 @@ class AnswerToolOne extends Tool {
         },
       ],
     });
-    this.addAssistantTool(AnswerToolTwo);
+    this.addAssistantTool(AnswerTwoTool);
   }
 }
 
@@ -62,12 +61,11 @@ class OutputsAssistant extends Assistant {
   constructor() {
     const name = helperName("OutputsAssistant");
     const description = "Answers to messages.";
-    const instructions =
-      "You must route the message in full to your answer tool. Never respond without first using that tool. Ex: What is my favorite food.";
+    const instructions = `You must route the message in full to your '${AnswerOneTool.toolName}' tool. Never respond without first using that tool. Never! Ex: When asked what is my favorite food, use the '${AnswerOneTool.toolName}' tool first.`;
     super(name, description, instructions, {
       temperature: 0.1,
     });
-    this.addAssistantTool(AnswerToolOne);
+    this.addAssistantTool(AnswerOneTool);
   }
 }
 

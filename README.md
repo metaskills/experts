@@ -8,6 +8,8 @@ An opinionated panel of experts implementation using OpenAI's Assistants API
 
 TODO:
 
+- Thread management and metadata.
+
 - Test a few simple cases
   - "value" == A <-> B <-> C ("value")
   - POJO as Tool. Using LLM false.
@@ -33,7 +35,7 @@ TODO:
 
 ## Setup
 
-This project leverages [Dev Containers](https://containers.dev/) meaning you can open it in any supporting IDE and get started right away. This includes using [VS Code with Dev Containers](https://www.youtube.com/watch?v=b1RavPr_878) which is the recommended approach.
+This project leverages [Dev Containers](https://containers.dev/) meaning you can open it in any supporting IDE to get started right away. This includes using [VS Code with Dev Containers](https://www.youtube.com/watch?v=b1RavPr_878) which is the recommended approach.
 
 Once opened in your development container, create a `.env.development.local` file with your OpenAI API key and [postimage.org](https://postimages.org) API key:
 
