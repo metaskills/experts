@@ -6,7 +6,40 @@ An opinionated panel of experts implementation using OpenAI's Assistants API
 ## Usage
 
 
-TODO:
+```javascript
+class MyAssistant extends Assistant {
+  constructor() {
+    const name = "My Assistant";
+    const description = "...";
+    const instructions = "..."
+    super(name, description, instructions);
+  }
+}
+
+const thread = Thread.create();
+const assistant = await MyAssistant.create();
+const output = assistant.ask("Hi, how are you?", thread.id);
+```
+
+
+## Threads
+
+You can even create a thread with a few messages to start the conversation.
+
+```javascript
+const thread = await Thread.create({
+  messages: [
+    { role: "user", content: "My name is Ken" },
+    { role: "user", content: "Oh, my last name is Collins" },
+  ],
+});
+await assistant.ask("What is my full name?", thread.id);
+```
+
+
+
+
+## TODO
 
 - Thread management and metadata.
 

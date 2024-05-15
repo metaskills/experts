@@ -1,10 +1,23 @@
 import { helperThreadID, helperFindAssistant } from "../helpers.js";
+import { TestAssistant } from "../fixtures.js";
 
 import { Thread } from "../../src/experts/thread.js";
 
 test("creates a thread", async () => {
   const thread = await Thread.create();
   expect(thread.id).toMatch(/^thread_/);
+});
+
+test("creates a thread with messages", async () => {
+  const thread = await Thread.create({
+    messages: [
+      { role: "user", content: "My name is Ken" },
+      { role: "user", content: "Oh, my last name is Collins" },
+    ],
+  });
+  const assistant = await TestAssistant.create();
+  const output = await assistant.ask("What is my full name?", thread.id);
+  expect(output).toMatch(/Ken.*Collins/);
 });
 
 test("can add metadata for various tracking purposes", async () => {

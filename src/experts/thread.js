@@ -8,8 +8,8 @@ class Thread {
     return new Thread(thread);
   }
 
-  static async create() {
-    const thrd = await openai.beta.threads.create();
+  static async create(body) {
+    const thrd = await openai.beta.threads.create(body);
     debug("🧵 Create: " + JSON.stringify(thrd));
     const thread = new Thread(thrd);
     return thread;

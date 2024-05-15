@@ -13,6 +13,16 @@ beforeEach(() => {
   delete process.env.TEST_ASSISTANT_ID;
 });
 
+test("send multiple messages as true message objects", async () => {
+  const assistant = await TestAssistant.create();
+  const threadID = await helperThreadID();
+  const output = await assistant.ask(
+    { role: "user", content: "My name is Ken Collins. What is my name?" },
+    threadID
+  );
+  expect(output).toMatch(/Ken Collins/);
+});
+
 test("can use environment variables to find an assistant by id", async () => {
   const assistant = await TestIDAssistant.create();
   // Will find the same assistant by name.

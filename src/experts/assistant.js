@@ -113,13 +113,8 @@ class Assistant {
   async #askAssistant(message, threadID) {
     if (!this.llm) return;
     const thread = await this.#askThread(threadID);
-    const messageContent =
-      typeof message === "string" ? message : JSON.stringify(message);
-    debug("💌 " + JSON.stringify(messageContent));
-    await openai.beta.threads.messages.create(thread.id, {
-      role: "user",
-      content: messageContent,
-    });
+    const apiMessage = this.#askMessage(message);
+    await openai.beta.threads.messages.create(thread.id, apiMessage);
     const run = await Run.streamForAssistant(this, thread);
     let output = await run.wait();
     if (this.isTool) {
@@ -136,6 +131,15 @@ class Assistant {
     output = await this.answered(output);
     debug(`🤖 ${output}`);
     return output;
+  }
+
+  #askMessage(message) {
+    const apiMessage =
+      typeof message === "string"
+        ? { role: "user", content: message }
+        : message;
+    debug("💌 " + JSON.stringify(apiMessage));
+    return apiMessage;
   }
 
   async #askThread(threadID) {
