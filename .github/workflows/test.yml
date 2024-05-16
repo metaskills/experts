@@ -9,18 +9,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-      - uses: ankane/setup-opensearch@v1
-        with:
-          opensearch-version: 2
       - name: Test
+        uses: devcontainers/ci@v0.3
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENSEARCH_URL: http://localhost:9200
           POST_IMAGES_API_KEY: ${{ secrets.POST_IMAGES_API_KEY }}
-        run: |
-          ./bin/setup
-          ./bin/test
+        with:
+          push: always
+          imageName: ghcr.io/metaskills/experts-cicd
+          cacheFrom: ghcr.io/metaskills/experts-cicd
+          env: |
+            CI
+            OPENAI_API_KEY
+            POST_IMAGES_API_KEY
+          runCmd: |
+            sleep 30
+            ./bin/setup
+            ./bin/test
