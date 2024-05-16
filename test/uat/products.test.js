@@ -20,6 +20,8 @@ test("a comprehensive opensearch assistant for product apparel catalog", async (
   // );
   // expect(totalChartAnswer).toMatch(/i\.postimg\.cc/);
 
+  // TODO: Add the "Find men's accessories for a sophisticated comic book enthusiast."
+
   // Ensure each has own tread using metadata links.
   const asstThread = await helperThread(threadID);
   expect(asstThread.metadata.assistant).toMatch(/ProductsAssistant/);
