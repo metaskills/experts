@@ -1,9 +1,16 @@
-# Experts
+# 🤖🤖🤖 Multi AI Agent Systems <br>using OpenAI's Assistants API
 
-An opinionated panel of experts implementation using OpenAI's Assistants API
+Experts.js is the easiest way to create [OpenAI's Assistants](https://platform.openai.com/docs/assistants/how-it-works) and link them together as Tools to create a Panel of Experts system with expanded memory and attention to detail.
+
+## Overview
+
+...
+
+## Installation
 
 
-## Usage
+
+## Assistants
 
 
 ```javascript
@@ -21,10 +28,20 @@ const assistant = await MyAssistant.create();
 const output = assistant.ask("Hi, how are you?", thread.id);
 ```
 
+## Tools
+
+...
 
 ## Threads
 
-You can even create a thread with a few messages to start the conversation.
+OpenAI's Assistants API introduces a new resource called [Threads](https://platform.openai.com/docs/assistants/how-it-works/managing-threads-and-messages) which messages & files are stored within. Essentially, threads are a managed context window or memory for your agent. Creating a new thread with Experts.js is as easy as:
+
+```javascript
+const thread = Thread.create();
+console.log(thread.id) // thread_abc123
+```
+
+You can also create a thread with messages to start a conversation. We support OpenAI's threads/create request body outlined in their [Threads API Reference](https://platform.openai.com/docs/api-reference/threads) documentation. For example:
 
 ```javascript
 const thread = await Thread.create({
@@ -33,15 +50,19 @@ const thread = await Thread.create({
     { role: "user", content: "Oh, my last name is Collins" },
   ],
 });
-await assistant.ask("What is my full name?", thread.id);
+const output = await assistant.ask("What is my full name?", thread.id);
+console.log(output) // Ken Collins
 ```
 
+### Thread Management & Locks
 
+By default, each [Tool](#tools) in Experts.js has its own thread & context. This avoids a potential [thread locking](https://platform.openai.com/docs/assistants/how-it-works/thread-locks) issue which happens if a  [Tool](#tools) were to share an [Assistant's](#assistant) thread which would still be waiting for tool outputs to be submitted. The following diagram illustrates how Experts.js manages threads on your behalf:
 
+![Panel of Experts Thread Management](docs/images/panel-of-experts-thread-management.webp)
+
+All questions to your experts require a thread ID. For chat applications, the ID would be stored on the client. Such as a URL path parameter. With Expert.js, no other client-side IDs are needed. As each [Assistant](#assistants) calls an LLM backed [Tool](#tools), it will find or create a thread for that tool as needed. Experts.js stores this parent -> child thread relationship for you using OpenAI's [thread metadata](https://platform.openai.com/docs/api-reference/threads/modifyThread). An Experts.js [Tool](#tools) configured as a simple function via the `llm` false configuration will not create or use a thread. 
 
 ## TODO
-
-- Thread management and metadata.
 
 - Test a few simple cases
   - "value" == A <-> B <-> C ("value")
@@ -66,7 +87,7 @@ await assistant.ask("What is my full name?", thread.id);
     this.logTokens({ InTokens: iT, OutTokens: oT, TotalTokens: tT });
   }
 
-## Setup
+## Development Setup
 
 This project leverages [Dev Containers](https://containers.dev/) meaning you can open it in any supporting IDE to get started right away. This includes using [VS Code with Dev Containers](https://www.youtube.com/watch?v=b1RavPr_878) which is the recommended approach.
 
