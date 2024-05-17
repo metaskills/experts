@@ -6,9 +6,9 @@ Experts.js is the easiest way to create and deploy [OpenAI's Assistants](https:/
 
 ## Overview
 
-The new Assistants API from OpenAI sets a new industry standard, significantly advancing beyond the widely adopted Chat Completions API. It represents a major leap in the usability of AI agents and the way engineers interact with LLMs. Paired with the cutting-edge [GPT-4o](https://openai.com/index/hello-gpt-4o/) model, Assistants can now reference attached files & images as knowledge sources within a managed context window called a [Thread](#threads). Unlike [Custom GPTs](https://openai.com/index/introducing-gpts/), Assistants support instructions up to 256,000 characters, integrate with 128 tools, and utilize the innovative [Vector Store](https://platform.openai.com/docs/assistants/tools/file-search/vector-stores) API for efficient file search.
+The new Assistants API from OpenAI sets a new industry standard, significantly advancing beyond the widely adopted Chat Completions API. It represents a major leap in the usability of AI agents and the way engineers interact with LLMs. Paired with the cutting-edge [GPT-4o](https://openai.com/index/hello-gpt-4o/) model, Assistants can now reference attached files & images as knowledge sources within a managed context window called a [Thread](#threads). Unlike [Custom GPTs](https://openai.com/index/introducing-gpts/), Assistants support instructions up to 256,000 characters, integrate with 128 tools, and utilize the innovative [Vector Store](https://platform.openai.com/docs/assistants/tools/file-search/vector-stores) API for efficient file search on up to 10,000 files per assistant.
 
-Experts.js aims to simplify the usage of this new API by removing the complexity of managing [Run](https://platform.openai.com/docs/assistants/how-it-works/runs-and-run-steps) objects.
+Experts.js aims to simplify the usage of this new API by removing the complexity of managing [Run](https://platform.openai.com/docs/assistants/how-it-works/runs-and-run-steps) objects and allowing Assistants to be linked together as Tools.
 
 ```javascript
 const thread = Thread.create();
