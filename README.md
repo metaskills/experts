@@ -372,11 +372,3 @@ Now you can run the following commands:
 ./bin/setup
 ./bin/test
 ```
-
-## Scratch
-
-```javascript
-const thread = Thread.create();
-const assistant = await MyAssistant.create();
-const output = assistant.ask("Hi, how are you?", thread.id);
-```
