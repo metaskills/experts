@@ -17,7 +17,7 @@ const output = await assistant.ask("Say hello.", thread.id);
 console.log(output) // Hello
 ```
 
-More importantly, Experts.js introduces Assistants as [Tools](#tools), enabling the creation of [Multi AI Agent Systems](https://twitter.com/AndrewYNg/status/1790769732146307308). Each Tool is an LLM-backed Assistant that can take on specialized roles or fulfill complex tasks on behalf of their parent [Assistant](#assistants) or Tool. Allowing for complex orchestration workflows or choreographing a series of tightly knit tasks. Shown here is an example of a company assistant with a product catalog tool which itself has a LLM backed tool to create OpenSearch queries. 
+More importantly, Experts.js introduces Assistants as [Tools](#tools), enabling the creation of [Multi AI Agent Systems](https://www.youtube.com/watch?v=sal78ACtGTc). Each Tool is an LLM-backed Assistant that can take on specialized roles or fulfill complex tasks on behalf of their parent [Assistant](#assistants) or Tool. Allowing for complex orchestration workflows or choreographing a series of tightly knit tasks. Shown here is an example of a company assistant with a product catalog tool which itself has a LLM backed tool to create OpenSearch queries. 
 
 ![Multi AI Agent Systems with OpenAI Assistants API](docs/images/panel-of-experts-company-apparel-after.webp)
 
