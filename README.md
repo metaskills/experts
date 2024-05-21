@@ -1,3 +1,5 @@
+[![npm](https://img.shields.io/npm/v/experts?logo=npm&color=yellow)](https://www.npmjs.com/package/experts) [![Test](https://github.com/metaskills/experts/actions/workflows/test.yml/badge.svg)](https://github.com/metaskills/experts/actions/workflows/test.yml)
+
 # Multi AI Agent Systems <br>using OpenAI's Assistants API (Experts.js)
 
 ![Experts.js](docs/images/logo.png)
