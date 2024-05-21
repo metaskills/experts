@@ -1,3 +1,5 @@
+[![npm](https://img.shields.io/npm/v/experts?logo=npm&color=yellow)](https://www.npmjs.com/package/experts) [![Test](https://github.com/metaskills/experts/actions/workflows/test.yml/badge.svg)](https://github.com/metaskills/experts/actions/workflows/test.yml)
+
 # Multi AI Agent Systems <br>using OpenAI's Assistants API (Experts.js)
 
 ![Experts.js](docs/images/logo.png)
@@ -66,7 +68,7 @@ const assistant = await MyAssistant.create();
 The Experts.js async `create()` function will: 
 
 * Find or create your assistant by name.
-* Updates the assistants configurations to latest. [(pending)](https://github.com/metaskills/experts/issues/2)
+* Updates the assistants configurations to latest.
 
 ### Simple Ask Interface
 
@@ -79,7 +81,7 @@ const output = await assistant.ask({ role: "user", content: "..." }, threadID);
 
 ### Adding Tools
 
-Normal OpenAI [tools and function calling](https://platform.openai.com/docs/assistants/tools/function-calling) are supported via our constructors options object via `tools` and `tool_resources`. Experts.js also supports adding [Assistants](#assistants) as Tools. More information on using Assistants as [Tools](#tools) can be found in the next section. Use the `addAssistantTool` function to add an Assistant as a Tool.
+Normal OpenAI [tools and function calling](https://platform.openai.com/docs/assistants/tools/function-calling) are supported via our constructors options object via `tools` and `tool_resources`. Experts.js also supports adding [Assistants](#assistants) as Tools. More information on using Assistants as [Tools](#tools) can be found in the next section. Use the `addAssistantTool` function to add an Assistant as a Tool. This must happen after `super()` in your Assistant's constructor.
 
 ```javascript
 class MainAssistant extends Assistant {
@@ -95,8 +97,7 @@ class MainAssistant extends Assistant {
 
 ### Streaming & Events
 
-By default all Experts.js leverages the [Assistants Streaming Events](https://platform.openai.com/docs/api-reference/assistants-streaming/events). These allow your applications to receive text, image, and tool outputs via OpenAI's server-send events. We lever the [openai-node](https://github.com/openai/openai-node/blob/master/helpers.md) stream helpers and surface these and more so you can be in control of all events in your agentic applications.
-
+By default, Experts.js leverages the [Assistants Streaming Events](https://platform.openai.com/docs/api-reference/assistants-streaming/events). These allow your applications to receive text, image, and tool outputs via OpenAI's server-send events. We leverage [openai-node's](https://github.com/openai/openai-node/blob/master/helpers.md) stream helpers and surface these events along with a few custom ones giving your assistants to tap into the complete lifecycle of a Run.
 
 ```javascript
 const assistant = await MainAssistant.create();
@@ -165,7 +166,7 @@ class EchoTool extends Tool {
 
 As such, Tool class names are important and help OpenAI's models decide which tool to call. So pick a good name for your tool class. For example, `ProductsOpenSearchTool` will be `products_open_search` and clearly helps the model infer along with the tool's description what role it performs.
 
-Tools are added to your [Assistant](#assistants) via the `addAssistantTool` function. This function will add the tool to the assistant's tools array and update the assistant's configuration.
+Tools are added to your [Assistant](#assistants) via the `addAssistantTool` function. This function will add the tool to the assistant's tools array and update the assistant's configuration. This must happen after `super()` in your Assistant's constructor.
 
 ```javascript
 class MainAssistant extends Assistant {

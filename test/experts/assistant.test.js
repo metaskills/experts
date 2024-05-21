@@ -13,6 +13,11 @@ beforeEach(() => {
   delete process.env.TEST_ASSISTANT_ID;
 });
 
+test("find by id safely supports not found", async () => {
+  const assistant = await TestAssistant.create({ id: "asst_neverfound" });
+  expect(assistant.id).toMatch(/^asst_/);
+});
+
 test("send images with messages image_file", async () => {
   const path = helperPath("test/fixtures/unremarkable-banner.png");
   const file = await openai.files.create({
