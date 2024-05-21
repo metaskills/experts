@@ -11,7 +11,7 @@ The new Assistants API from OpenAI sets a new industry standard, significantly a
 Experts.js aims to simplify the usage of this new API by removing the complexity of managing [Run](https://platform.openai.com/docs/assistants/how-it-works/runs-and-run-steps) objects and allowing Assistants to be linked together as Tools.
 
 ```javascript
-const thread = Thread.create();
+const thread = await Thread.create();
 const assistant = await MyAssistant.create();
 const output = await assistant.ask("Say hello.", thread.id);
 console.log(output) // Hello
