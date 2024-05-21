@@ -356,6 +356,16 @@ class MyAssistant extends Assistant {
 }
 ```
 
+## Environment Variables
+
+### Global Model Configuration
+
+You can globally set the model for all Assistants using the `EXPERTS_DEFAULT_MODEL` environment variable. This only works if you have not explicitly set the model in your Assistant's constructor.
+
+### Debugging API Calls & Events
+
+To debug your assistant, you can set the `DEBUG=1` environment variable. This will output verbose logging of all API calls and server-send events. Delta events can be somewhat verbose and are disabled by default. Please also use the `DEBUG_DELTAS=1` environment variable to turn those on.
+
 ## Development Setup
 
 This project leverages [Dev Containers](https://containers.dev/) meaning you can open it in any supporting IDE to get started right away. This includes using [VS Code with Dev Containers](https://www.youtube.com/watch?v=b1RavPr_878) which is the recommended approach.
