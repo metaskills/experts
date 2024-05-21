@@ -35,7 +35,7 @@ class NoLLMToolAssistant extends Assistant {
   constructor() {
     const name = helperName("NoLLMToolAssistant");
     const description = "Answers to messages.";
-    const instructions = `You must route the message in full to your '${AnswerTool.toolName}' tool. Never respond without first using that tool. Never! Ex: When asked what color the sky is, use the '${AnswerTool.toolName}' tool first.`;
+    const instructions = `You must route /tool messages in full to your '${AnswerTool.toolName}' tool. Never respond without first using that tool. Never! Ex: When asked what color the sky is, use the '${AnswerTool.toolName}' tool first.`;
     super(name, description, instructions);
     this.addAssistantTool(AnswerTool);
   }
