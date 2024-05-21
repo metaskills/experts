@@ -278,6 +278,7 @@ class Assistant {
     if (!this.id) return;
     const assistant = await openai.beta.assistants.retrieve(this.id);
     debug(`💁‍♂️  Found by id ${this.agentName} assistant ${this.id}`);
+    await this.#update(assistant);
     return assistant;
   }
 
@@ -286,12 +287,30 @@ class Assistant {
       await openai.beta.assistants.list({ limit: "100" })
     ).data.find((a) => a.name === this.agentName);
     debug(`💁‍♂️  Found by name ${this.agentName} assistant`);
+    await this.#update(assistant);
     return assistant;
   }
 
   async #reCreate() {
     const assistant = (await this.#deleteByName()) || (await this.#create());
     return assistant;
+  }
+
+  async #update(assistant) {
+    if (!assistant) return;
+    await openai.beta.assistants.update(assistant.id, {
+      model: this.model,
+      name: this.agentName,
+      description: this.description,
+      instructions: this.instructions,
+      tools: this.tools,
+      tool_resources: this.tool_resources,
+      metadata: this._metadata,
+      temperature: this.temperature,
+      top_p: this.top_p,
+      response_format: this.response_format,
+    });
+    debug(`💁‍♂️ Updated ${this.agentName} assistant ${assistant.id}`);
   }
 
   async #create() {
