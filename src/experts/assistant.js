@@ -98,6 +98,10 @@ class Assistant {
     this.emitter.on(event, listener);
   }
 
+  once(event, listener) {
+    this.emitter.once(event, listener);
+  }
+
   addExpertOutput(output) {
     this.#expertsOutputs.push(output);
   }

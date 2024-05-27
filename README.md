@@ -330,7 +330,7 @@ const assistant = await MainAssistant.create();
 messagesRouter.post("", async (req, res, next) => {
   res.setHeader("Content-Type", "text/plain");
   res.setHeader("Transfer-Encoding", "chunked");
-  assistant.on("textDelta", (delta, _snapshot) => {
+  assistant.once("textDelta", (delta, _snapshot) => {
     res.write(delta.value);
   });
   await assistant.ask(req.body.message.content, req.body.threadID);
