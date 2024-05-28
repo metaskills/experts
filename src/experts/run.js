@@ -4,11 +4,10 @@ import { openai } from "../openai.js";
 class Run {
   #stream;
 
-  static async streamForAssistant(assistant, thread) {
+  static async streamForAssistant(assistant, thread, options = {}) {
     debug("🦦 Streaming...");
-    const stream = await openai.beta.threads.runs.stream(thread.id, {
-      assistant_id: assistant.id,
-    });
+    options.assistant_id ||= assistant.id;
+    const stream = await openai.beta.threads.runs.stream(thread.id, options);
     return new Run(assistant, thread, stream);
   }
 

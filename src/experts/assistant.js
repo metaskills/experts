@@ -43,6 +43,7 @@ class Assistant {
       this.tool_resources = options.tool_resources || {};
       this._metadata = options.metadata;
       this.response_format = options.response_format || "auto";
+      this.run_options = options.run_options || {};
       this.emitter = new EventEmitter2({ maxListeners: 0, newListener: true });
       this.emitter.on("newListener", this.#newListener.bind(this));
     }
@@ -76,9 +77,9 @@ class Assistant {
 
   // Interface
 
-  async ask(message, threadID) {
+  async ask(message, threadID, options = {}) {
     try {
-      return await this.#askAssistant(message, threadID);
+      return await this.#askAssistant(message, threadID, options);
     } finally {
       await this.#askCleanup();
     }
@@ -110,12 +111,13 @@ class Assistant {
 
   // Private (Ask)
 
-  async #askAssistant(message, threadID) {
+  async #askAssistant(message, threadID, options = {}) {
     if (!this.llm) return;
     const thread = await this.#askThread(threadID);
     const apiMessage = this.#askMessage(message);
     await openai.beta.threads.messages.create(thread.id, apiMessage);
-    const run = await Run.streamForAssistant(this, thread);
+    const runOptions = this.#askRunOptions(options);
+    const run = await Run.streamForAssistant(this, thread, runOptions);
     let output = await run.wait();
     output = this.#askOutput(output);
     output = await this.answered(output);
@@ -160,6 +162,12 @@ class Assistant {
       }
     }
     return thread;
+  }
+
+  #askRunOptions(options) {
+    if (options.run) return options.run;
+    if (this.run_options) return this.run_options;
+    return {};
   }
 
   async #askCleanup() {
