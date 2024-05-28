@@ -260,6 +260,41 @@ By default, each [Tool](#tools) in Experts.js has its own thread & context. This
 
 All questions to your experts require a thread ID. For chat applications, the ID would be stored on the client. Such as a URL path parameter. With Expert.js, no other client-side IDs are needed. As each [Assistant](#assistants) calls an LLM backed [Tool](#tools), it will find or create a thread for that tool as needed. Experts.js stores this parent -> child thread relationship for you using OpenAI's [thread metadata](https://platform.openai.com/docs/api-reference/threads/modifyThread).
 
+## Runs
+
+Runs are managed for you behind the Assistant's `ask` function. However, you can still pass options that will be used [when creating a Run](https://platform.openai.com/docs/api-reference/runs/createRun) in one of two ways.
+
+First, you can specify `run_options` in the Assistant's constructor. These options will be used for all Runs created by the Assistant. This is a great way to force the model to use a tool via the `tool_choice` option.
+
+```javascript
+class CarpenterAssistant extends Assistant {
+  constructor() {
+    // ...
+    super(name, description, instructions, {
+      run_options: {
+        tool_choice: {
+          type: "function",
+          function: { name: MyTool.toolName },
+        },
+      },
+    });
+    this.addAssistantTool(MyTool);
+  }
+}
+```
+
+Alternatively, you can pass an options object to the `ask` method to be used for the current Run. This is a great way to create single Run options.
+
+```javascript
+await assistant.ask("...", "thread_abc123", {
+  run: {
+    tool_choice: { type: "function", function: { name: MyTool.toolName } },
+    additional_instructions: "...",
+    additional_messages: [...],
+  },
+});
+```
+
 ## Examples
 
 To see code examples of these and more in action, please take a look at our [test suite](https://github.com/metaskills/experts/tree/main/test/uat). 
