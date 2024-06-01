@@ -52,10 +52,7 @@ class Assistant {
   async init() {
     await this.beforeInit();
     if (!this.llm) return;
-    this.assistant =
-      (await this.#findByID()) ||
-      (await this.#findByName()) ||
-      (await this.#reCreate());
+    this.assistant = (await this.#findByID()) || (await this.#create());
     for (const [_name, tool] of Object.entries(this.experts)) {
       await tool.init();
     }
@@ -285,22 +282,9 @@ class Assistant {
   async #findByID() {
     if (!this.id) return;
     const assistant = await openai.beta.assistants.retrieve(this.id);
+    if (!assistant) return;
     debug(`💁‍♂️  Found by id ${this.agentName} assistant ${this.id}`);
     await this.#update(assistant);
-    return assistant;
-  }
-
-  async #findByName() {
-    const assistant = (
-      await openai.beta.assistants.list({ limit: "100" })
-    ).data.find((a) => a.name === this.agentName);
-    debug(`💁‍♂️  Found by name ${this.agentName} assistant`);
-    await this.#update(assistant);
-    return assistant;
-  }
-
-  async #reCreate() {
-    const assistant = (await this.#deleteByName()) || (await this.#create());
     return assistant;
   }
 

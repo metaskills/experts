@@ -29,7 +29,6 @@ class ProductsOpenSearchTool extends Tool {
               properties: { message: { type: "string" } },
               required: ["message"],
             },
-            required: ["message"],
           },
         },
       ],

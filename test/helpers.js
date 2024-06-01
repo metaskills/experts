@@ -10,7 +10,7 @@ const helperName = (use, options = {}) => {
   const rand = options.rand !== undefined ? options.rand : true;
   const name = `Experts.js (${use})`;
   if (!rand) return name;
-  return `${name} ${Math.random().toString(36).substring(4)}`;
+  return name;
 };
 
 const helperPath = (filePath) => {
