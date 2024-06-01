@@ -2,6 +2,16 @@
 
 See this http://keepachangelog.com link for information on how we want this documented formatted.
 
+## v1.1.0
+
+### Changed
+
+Names are no longer unique when assistants are created. This means the find/recreate by name is no longer needed. Recommend if deployments must track a fixed assistant to use the assistant id environment variable.
+
+### Fixed
+
+OpenAI now seems to validate the tool JSON on Assistant create. Fixed a bug in a test fixture where `required` was in the wrong place.
+
 ## v1.0.2
 
 ### Added

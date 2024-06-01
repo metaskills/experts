@@ -84,14 +84,11 @@ test("send multiple messages as true message objects", async () => {
 });
 
 test("can use environment variables to find an assistant by id", async () => {
-  const assistant = await TestIDAssistant.create();
-  // Will find the same assistant by name.
-  const assistant2 = await TestIDAssistant.create();
-  expect(assistant.id).toBe(assistant2.id);
+  const assistant1 = await TestIDAssistant.create();
   // Will find by id.
-  process.env.TEST_ASSISTANT_ID = assistant2.id;
-  const assistant3 = await TestIDAssistant.create();
-  expect(assistant2.id).toBe(assistant3.id);
+  process.env.TEST_ASSISTANT_ID = assistant1.id;
+  const assistant2 = await TestIDAssistant.create();
+  expect(assistant2.id).toBe(assistant1.id);
 });
 
 test("can configure various options", async () => {
@@ -122,7 +119,7 @@ test("can configure various options", async () => {
 
 test("create new assistant using name, description, and instruction defaults", async () => {
   // None exists before creation.
-  const name = helperName("Test");
+  const name = helperName("Test") + Math.random().toString().substring(2, 10);
   TestAssistant.name = name;
   const assistantNone = await helperFindAssistant(name);
   expect(assistantNone).toBeUndefined();
