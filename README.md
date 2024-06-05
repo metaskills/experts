@@ -77,7 +77,7 @@ const assistant = Assistant.create({
 ```
 
 > [!IMPORTANT]  
-> Creating assistants without an `id` parameter will always create a new assistant. See our [deployment](#deployment) section for more information.
+> Creating assistants without an `id` parameter will always create a new assistant. See our [deployment](#deployments) section for more information.
 
 ### Simple Ask Interface
 
