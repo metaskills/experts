@@ -2,6 +2,39 @@
 
 See this http://keepachangelog.com link for information on how we want this documented formatted.
 
+## v1.2.0
+
+### Changed
+
+**Major Assistant & Tool Constructor Changes**
+
+Both Assistant & Tool have removed their (name, description, instructions) ordinal parameters in favor a single options object. Now, the constructor signature is:
+
+```javascript
+// Using Assistant.create() factory.
+// 
+assistant = new Assistant.craete({
+  name: "My Assistant",
+  instructions: "My Assistant Instructions",
+  ...
+});
+
+// Or using ES6 Classes.
+//
+class MyAssistant extends Assistant {
+  constructor() {
+    super({
+      name: "My Assistant",
+      instructions: "My Assistant Instructions",
+    });
+  }
+})
+```
+
+## Added
+
+A new `skipUpdate` option to use for deployments such as staging where it might be desirable to use the Assistants remote resource instructions or other properties.
+
 ## v1.1.0
 
 ### Changed

@@ -13,8 +13,10 @@ The new Assistants API from OpenAI sets a new industry standard, significantly a
 Experts.js aims to simplify the usage of this new API by removing the complexity of managing [Run](https://platform.openai.com/docs/assistants/how-it-works/runs-and-run-steps) objects and allowing Assistants to be linked together as Tools.
 
 ```javascript
+import { Assistant, Thread } from "experts";
+
 const thread = await Thread.create();
-const assistant = await MyAssistant.create();
+const assistant = await Assistant.create();
 const output = await assistant.ask("Say hello.", thread.id);
 console.log(output) // Hello
 ```
@@ -46,11 +48,10 @@ The constructor of our [Assistant](https://platform.openai.com/docs/assistants/h
 ```javascript
 class MyAssistant extends Assistant {
   constructor() {
-    const name = "My Assistant";
-    const description = "...";
-    const instructions = "..."
-    super(name, description, instructions, {
-      model: "gpt-4-turbo",
+    super({
+      name: "My Assistant",
+      instructions: "...",
+      model: "gpt-4o",
       tools: [{ type: "file_search" }],
       temperature: 0.1,
       tool_resources: {
@@ -65,10 +66,18 @@ class MyAssistant extends Assistant {
 const assistant = await MyAssistant.create();
 ```
 
-The Experts.js async `create()` function will: 
+The Experts.js async `Assistant.create()` base factory function is a simple way to create an assistant using the same constructor options.
 
-* Find or create your assistant by name.
-* Updates the assistants configurations to latest.
+```javascript
+const assistant = Assistant.create({
+  name: "My Assistant",
+  instructions: "...",
+  model: "gpt-4o",
+});
+```
+
+> [!IMPORTANT]  
+> Creating assistants without an `id` parameter will always create a new assistant. See our [deployment](#deployment) section for more information.
 
 ### Simple Ask Interface
 
@@ -86,10 +95,10 @@ Normal OpenAI [tools and function calling](https://platform.openai.com/docs/assi
 ```javascript
 class MainAssistant extends Assistant {
   constructor() {
-    const name = "Company Assistant;
-    const description = "...";
-    const instructions = "...";
-    super(name, description, instructions);
+    super({
+      name: "Company Assistant",
+      instructions: "...",
+    });
     this.addAssistantTool(ProductsTools);
   }
 }
@@ -138,10 +147,9 @@ Using an [Assistant](#assistants) as a Tool is central focal point of the Expert
 ```javascript
 class EchoTool extends Tool {
   constructor() {
-    const name = "Echo Tool";
-    const description = "Echo";
-    const instructions = "Echo the same text back to the user";
-    super(name, description, instructions, {
+    super({
+      name: "Echo Tool",
+      instructions: "Echo the same text back to the user",
       parentsTools: [
         {
           type: "function",
@@ -171,10 +179,10 @@ Tools are added to your [Assistant](#assistants) via the `addAssistantTool` func
 ```javascript
 class MainAssistant extends Assistant {
   constructor() {
-    const name = "Company Assistant;
-    const description = "...";
-    const instructions = "...";
-    super(name, description, instructions);
+    super({
+      name: "Company Assistant",
+      instructions: "..."
+    });
     this.addAssistantTool(EchoTool);
   }
 }
@@ -189,8 +197,8 @@ By default Tools are backed by an LLM `model` and perform all the same lifecycle
 ```javascript
 class AnswerTwoTool extends Tool {
   constructor() {
-    // ...
-    super(name, description, instructions, {
+    super({
+      // ...
       llm: false,
       parentsTools: [...],
     });
@@ -217,8 +225,8 @@ Alternatively, LLM backed Tools could opt to redirect their own tool outputs bac
 ```javascript
 class ProductsTool extends Tool {
   constructor() {
-    // ...
-    super(name, description, instructions, {
+    super({
+      // ...
       temperature: 0.1,
       tools: [{ type: "code_interpreter" }],
       outputs: "tools",
@@ -269,8 +277,8 @@ First, you can specify `run_options` in the Assistant's constructor. These optio
 ```javascript
 class CarpenterAssistant extends Assistant {
   constructor() {
-    // ...
-    super(name, description, instructions, {
+    super({
+      // ...
       run_options: {
         tool_choice: {
           type: "function",
@@ -353,10 +361,9 @@ Using a [Vector Store](https://platform.openai.com/docs/assistants/tools/file-se
 
 class VectorSearchAssistant extends Assistant {
   constructor() {
-    const name = "Vector Search Assistant";
-    const description = "...";
-    const instructions = "..."
-    super(name, description, instructions, {
+    super({
+      name: "Vector Search Assistant",
+      instructions: "...",
       tools: [{ type: "file_search" }],
       temperature: 0.1,
       tool_resources: {
@@ -376,8 +383,9 @@ Using the [Streaming & Events](#streaming--events) feature to report token usage
 ```javascript
 class MyAssistant extends Assistant {
   constructor() {
-    // ...
-    super(name, description, instructions);
+    super({
+      // ...
+    });
     this.on("runStepDone", this.#reportUsage.bind(this));
   }
 
@@ -390,6 +398,23 @@ class MyAssistant extends Assistant {
   }
 }
 ```
+
+## Deployments
+
+In order for an Assistant to be deployed to a production environment, we recommend the following configurations. First, create or find your assistant's id. The string will be in the format of `asst_abc123`. Then pass this id into the Assistant's or Tools's constructor. This will ensure that the same assistant is used across all deployments.
+
+```javascript
+class MyAssistant extends Assistant {
+  constructor() {
+    super({
+      // ...
+      id: process.env.MY_ASSISTANT_ID
+    });
+  }
+}
+```
+
+Once an Assistant or Tool is found by id, any remote configurations that are different present are overwritten by the local configurations. If required, for example in a staging environment, you can bypass this behavior by setting the `skipUpdate` option to `true`.
 
 ## Environment Variables
 

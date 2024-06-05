@@ -10,11 +10,11 @@ const INSTRUCTIONS = helperInstructions("productsOpenSearch.md", {
 
 class ProductsOpenSearchTool extends Tool {
   constructor() {
-    const name = helperName("ProductsOpenSearchTool");
-    const description =
-      "Creates a fully formed OpenSearch query based on the user's messages.";
-    const instructions = INSTRUCTIONS;
-    super(name, description, instructions, {
+    super({
+      name: helperName("ProductsOpenSearchTool"),
+      description:
+        "Creates a fully formed OpenSearch query based on the user's messages.",
+      instructions: INSTRUCTIONS,
       temperature: 0.1,
       response_format: { type: "json_object" },
       parentsTools: [

@@ -97,7 +97,7 @@ test("can configure various options", async () => {
     file: fs.createReadStream(path),
     purpose: "assistants",
   });
-  const assistant = await TestAssistant.createWithOptions({
+  const assistant = await TestAssistant.create({
     metadata: { foo: "bar" },
     temperature: 0.5,
     top_p: 0.5,
@@ -126,7 +126,7 @@ test("create new assistant using name, description, and instruction defaults", a
   const assistant = await TestAssistant.create();
   const backendAssistant = await helperFindAssistant(name);
   // Assistant
-  expect(assistant.agentName).toBe(name);
+  expect(assistant.nameOrID).toBe(name);
   expect(assistant.description).toBe("test-description");
   expect(assistant.instructions).toBe("test-instructions");
   expect(assistant.llm).toBe(true);
@@ -148,10 +148,10 @@ test("create new assistant using name, description, and instruction defaults", a
 
 test("assistants store metadata in the thread", async () => {
   const threadID = await helperThreadID();
-  const assistant = await TestAssistant.createWithOptions({
+  const assistant = await TestAssistant.create({
     instructions: "Only say hello.",
   });
   await assistant.ask("Hello", threadID);
   const thread = await Thread.find(threadID);
-  expect(thread.metadata.assistant).toBe(assistant.agentName);
+  expect(thread.metadata.assistant).toBe(assistant.nameOrID);
 });

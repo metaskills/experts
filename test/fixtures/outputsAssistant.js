@@ -3,17 +3,17 @@ import { Assistant, Tool } from "../../src/index.js";
 
 class AnswerTwoTool extends Tool {
   constructor() {
-    const name = helperName("AnswerTwoTool");
-    const description = "Answers to messages.";
-    const instructions = description;
-    super(name, description, instructions, {
+    super({
+      name: helperName("AnswerTwoTool"),
+      description: "Answers to messages.",
+      instructions: "Answers to messages.",
       llm: false,
       parentsTools: [
         {
           type: "function",
           function: {
             name: AnswerTwoTool.toolName,
-            description: description,
+            description: "Answers to messages.",
             parameters: {
               type: "object",
               properties: { message: { type: "string" } },
@@ -32,10 +32,10 @@ class AnswerTwoTool extends Tool {
 
 class AnswerOneTool extends Tool {
   constructor() {
-    const name = helperName("AnswerOneTool");
-    const description = "Answers to messages.";
-    const instructions = `You must route the message in full to your '${AnswerTwoTool.toolName}' tool. Never respond without first using that tool. Never! Ex: When asked what is my favorite food, use the '${AnswerTwoTool.toolName}' tool first. Lastly, tespond only with the single word 'Success' to the question.`;
-    super(name, description, instructions, {
+    super({
+      name: helperName("AnswerOneTool"),
+      description: "Answers to messages.",
+      instructions: `You must route the message in full to your '${AnswerTwoTool.toolName}' tool. Never respond without first using that tool. Never! Ex: When asked what is my favorite food, use the '${AnswerTwoTool.toolName}' tool first. Lastly, tespond only with the single word 'Success' to the question.`,
       temperature: 0.1,
       outputs: "tools", // THIS: Focus of the test. Combined with only success response.
       parentsTools: [
@@ -43,7 +43,7 @@ class AnswerOneTool extends Tool {
           type: "function",
           function: {
             name: AnswerOneTool.toolName,
-            description: description,
+            description: "Answers to messages.",
             parameters: {
               type: "object",
               properties: { message: { type: "string" } },
@@ -59,10 +59,10 @@ class AnswerOneTool extends Tool {
 
 class OutputsAssistant extends Assistant {
   constructor() {
-    const name = helperName("OutputsAssistant");
-    const description = "Answers to messages.";
-    const instructions = `You must route the message in full to your '${AnswerOneTool.toolName}' tool. Never respond without first using that tool. Never! Ex: When asked what is my favorite food, use the '${AnswerOneTool.toolName}' tool first.`;
-    super(name, description, instructions, {
+    super({
+      name: helperName("OutputsAssistant"),
+      description: "Answers to messages.",
+      instructions: `You must route the message in full to your '${AnswerOneTool.toolName}' tool. Never respond without first using that tool. Never! Ex: When asked what is my favorite food, use the '${AnswerOneTool.toolName}' tool first.`,
       temperature: 0.1,
     });
     this.addAssistantTool(AnswerOneTool);

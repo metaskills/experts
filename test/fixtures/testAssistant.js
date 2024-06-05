@@ -10,22 +10,21 @@ class TestAssistant extends Assistant {
     this._name = value;
   }
 
-  static async createWithOptions(options = {}) {
-    const asst = new this(options);
-    await asst.init();
-    return asst;
-  }
-
   constructor(options = {}) {
-    super(TestAssistant.name, "test-description", "test-instructions", options);
+    options.name = TestAssistant.name;
+    options.description = "test-description";
+    options.instructions = "test-instructions";
+    super(options);
   }
 }
 
 class TestIDAssistant extends Assistant {
   constructor() {
-    const name = helperName("Test", { rand: false });
-    super(name, "test-description", "test-instructions", {
+    super({
       id: process.env.TEST_ASSISTANT_ID,
+      name: helperName("Test", { rand: false }),
+      description: "test-description",
+      instructions: "test-instructions",
     });
   }
 }

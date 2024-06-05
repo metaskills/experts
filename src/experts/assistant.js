@@ -19,16 +19,16 @@ class Assistant {
   #expertsOutputs = [];
   #asyncListeners = {};
 
-  static async create() {
-    const asst = new this();
+  static async create(options = {}) {
+    const asst = new this(options);
     await asst.init();
     return asst;
   }
 
-  constructor(agentName, description, instructions, options = {}) {
-    this.agentName = agentName;
-    this.description = description;
-    this.instructions = instructions;
+  constructor(options = {}) {
+    this.name = options.name;
+    this.description = options.description;
+    this.instructions = options.instructions;
     this.llm = options.llm !== undefined ? options.llm : true;
     if (this.llm) {
       this.id = options.id;
@@ -44,6 +44,8 @@ class Assistant {
       this._metadata = options.metadata;
       this.response_format = options.response_format || "auto";
       this.run_options = options.run_options || {};
+      this.skipUpdate =
+        options.skipUpdate !== undefined ? options.skipUpdate : false;
       this.emitter = new EventEmitter2({ maxListeners: 0, newListener: true });
       this.emitter.on("newListener", this.#newListener.bind(this));
     }
@@ -70,6 +72,10 @@ class Assistant {
 
   get metadata() {
     return this.assistant.metadata;
+  }
+
+  get nameOrID() {
+    return this.name || this.id;
   }
 
   // Interface
@@ -155,7 +161,7 @@ class Assistant {
       }
     } else {
       if (!thread.hasAssistantMetadata) {
-        thread.addMetaData({ assistant: this.agentName });
+        thread.addMetaData({ assistant: this.nameOrID });
       }
     }
     return thread;
@@ -281,18 +287,23 @@ class Assistant {
 
   async #findByID() {
     if (!this.id) return;
-    const assistant = await openai.beta.assistants.retrieve(this.id);
+    let assistant;
+    try {
+      assistant = await openai.beta.assistants.retrieve(this.id);
+    } catch (error) {
+      if (error.status !== 404) throw error;
+    }
     if (!assistant) return;
-    debug(`💁‍♂️  Found by id ${this.agentName} assistant ${this.id}`);
+    debug(`💁‍♂️  Found by id ${this.nameOrID}assistant ${this.id}`);
     await this.#update(assistant);
     return assistant;
   }
 
   async #update(assistant) {
-    if (!assistant) return;
+    if (!assistant || this.skipUpdate) return;
     await openai.beta.assistants.update(assistant.id, {
       model: this.model,
-      name: this.agentName,
+      name: this.nameOrID,
       description: this.description,
       instructions: this.instructions,
       tools: this.tools,
@@ -302,13 +313,13 @@ class Assistant {
       top_p: this.top_p,
       response_format: this.response_format,
     });
-    debug(`💁‍♂️ Updated ${this.agentName} assistant ${assistant.id}`);
+    debug(`💁‍♂️ Updated ${this.nameOrID} assistant ${assistant.id}`);
   }
 
   async #create() {
     const assistant = await openai.beta.assistants.create({
       model: this.model,
-      name: this.agentName,
+      name: this.nameOrID,
       description: this.description,
       instructions: this.instructions,
       temperature: this.temperature,
@@ -318,18 +329,8 @@ class Assistant {
       metadata: this._metadata,
       response_format: this.response_format,
     });
-    debug(`💁‍♂️ Created ${this.agentName} assistant ${assistant.id}`);
+    debug(`💁‍♂️ Created ${this.nameOrID} assistant ${assistant.id}`);
     return assistant;
-  }
-
-  async #deleteByName() {
-    const assistant = (
-      await openai.beta.assistants.list({ limit: 100 })
-    ).data.find((a) => a.name === this.agentName);
-    if (assistant !== undefined) {
-      debug(`🗑️  Deleting assistant: ${this.agentName}`);
-      await openai.beta.assistants.del(assistant.id);
-    }
   }
 }
 

@@ -14,10 +14,10 @@ Follow these rules:
 
 class ProductsAssistant extends Assistant {
   constructor() {
-    const name = helperName("ProductsAssistant");
-    const description = "Product apparel company's virtual assistant.";
-    const instructions = INSTRUCTIONS;
-    super(name, description, instructions, {
+    super({
+      name: helperName("ProductsAssistant"),
+      description: "Product apparel company's virtual assistant.",
+      instructions: INSTRUCTIONS,
       temperature: 0.1,
     });
     this.addAssistantTool(ProductsTool);
