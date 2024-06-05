@@ -76,7 +76,8 @@ const assistant = Assistant.create({
 });
 ```
 
-Creating assistants without an `id` parameter will always create a new assistant.
+> [!IMPORTANT]  
+> Creating assistants without an `id` parameter will always create a new assistant. See our [deployment](#deployment) section for more information.
 
 ### Simple Ask Interface
 
@@ -397,6 +398,23 @@ class MyAssistant extends Assistant {
   }
 }
 ```
+
+## Deployments
+
+In order for an Assistant to be deployed to a production environment, we recommend the following configurations. First, create or find your assistant's id. The string will be in the format of `asst_abc123`. Then pass this id into the Assistant's or Tools's constructor. This will ensure that the same assistant is used across all deployments.
+
+```javascript
+class MyAssistant extends Assistant {
+  constructor() {
+    super({
+      // ...
+      id: process.env.MY_ASSISTANT_ID
+    });
+  }
+}
+```
+
+Once an Assistant or Tool is found by id, any remote configurations that are different present are overwritten by the local configurations. If required, for example in a staging environment, you can bypass this behavior by setting the `skipUpdate` option to `true`.
 
 ## Environment Variables
 

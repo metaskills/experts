@@ -44,6 +44,8 @@ class Assistant {
       this._metadata = options.metadata;
       this.response_format = options.response_format || "auto";
       this.run_options = options.run_options || {};
+      this.skipUpdate =
+        options.skipUpdate !== undefined ? options.skipUpdate : false;
       this.emitter = new EventEmitter2({ maxListeners: 0, newListener: true });
       this.emitter.on("newListener", this.#newListener.bind(this));
     }
@@ -298,7 +300,7 @@ class Assistant {
   }
 
   async #update(assistant) {
-    if (!assistant) return;
+    if (!assistant || this.skipUpdate) return;
     await openai.beta.assistants.update(assistant.id, {
       model: this.model,
       name: this.nameOrID,
