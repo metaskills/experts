@@ -4,16 +4,16 @@ import { Assistant, Tool } from "../../src/index.js";
 class DrillTool extends Tool {
   static calls = 0;
   constructor() {
-    const name = helperName("DrillTool");
-    const description = "A drill tool.";
-    super(name, description, "", {
+    super({
+      name: helperName("DrillTool"),
+      description: "A drill tool.",
       llm: false,
       parentsTools: [
         {
           type: "function",
           function: {
             name: DrillTool.toolName,
-            description: description,
+            description: "A drill tool.",
             parameters: {
               type: "object",
               properties: { use: { type: "boolean" } },
@@ -33,11 +33,11 @@ class DrillTool extends Tool {
 
 class CarpenterAssistant extends Assistant {
   constructor() {
-    const name = helperName("Carpenter");
-    const description = "A carpenter that does not work.";
-    const instructions =
-      "Avoid work at all costs because your drill is broken. But if you did do work, tell me what you did.";
-    super(name, description, instructions, {
+    super({
+      name: helperName("Carpenter"),
+      description: "A carpenter that does not work.",
+      instructions:
+        "Avoid work at all costs because your drill is broken. But if you did do work, tell me what you did.",
       temperature: 0.1,
       run_options: {
         tool_choice: {

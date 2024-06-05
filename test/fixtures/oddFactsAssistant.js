@@ -5,10 +5,10 @@ import { helperName, helperPath } from "../helpers.js";
 
 class OddFactsAssistant extends Assistant {
   constructor() {
-    const name = helperName("OddFacts");
-    const description = "Odd Facts";
-    const instructions = "Search your files for answers to questions.";
-    super(name, description, instructions, {
+    super({
+      name: helperName("OddFacts"),
+      description: "Odd Facts",
+      instructions: "Search your files for answers to questions.",
       tools: [{ type: "file_search" }],
       temperature: 0.1,
     });

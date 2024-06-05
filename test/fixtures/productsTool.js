@@ -18,10 +18,10 @@ Follow these rules:
 
 class ProductsTool extends Tool {
   constructor() {
-    const name = helperName("ProductsTool");
-    const description = "Apparel product search assistant.";
-    const instructions = INSTRUCTIONS;
-    super(name, description, instructions, {
+    super({
+      name: helperName("ProductsTool"),
+      description: "Apparel product search assistant.",
+      instructions: INSTRUCTIONS,
       temperature: 0.1,
       tools: [{ type: "code_interpreter" }],
       outputs: "tools",

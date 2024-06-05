@@ -2,6 +2,35 @@
 
 See this http://keepachangelog.com link for information on how we want this documented formatted.
 
+## v1.2.0
+
+### Changed
+
+**Major Assistant & Tool Constructor Changes**
+
+Both Assistant & Tool have removed their (name, description, instructions) ordinal parameters in favor a single options object. 
+
+```javascript
+// Using Assistant.create() factory.
+// 
+assistant = new Assistant.craete({
+  name: "My Assistant",
+  instructions: "My Assistant Instructions",
+  ...
+});
+
+// Or using ES6 Classes.
+//
+class MyAssistant extends Assistant {
+  constructor() {
+    super({
+      name: "My Assistant",
+      instructions: "My Assistant Instructions",
+    });
+  }
+})
+```
+
 ## v1.1.0
 
 ### Changed

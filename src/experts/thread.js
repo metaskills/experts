@@ -50,7 +50,7 @@ class Thread {
     if (!threadID) {
       thread = await Thread.create();
       await this.addMetaData({ [threadKey]: thread.id });
-      await thread.addMetaData({ tool: tool.agentName });
+      await thread.addMetaData({ tool: tool.nameOrID });
     } else {
       thread = await Thread.find(threadID);
     }

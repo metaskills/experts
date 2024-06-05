@@ -11,8 +11,8 @@ class Tool extends Assistant {
     return name;
   }
 
-  constructor(agentName, description, instructions, options = {}) {
-    super(agentName, description, instructions, options);
+  constructor(options = {}) {
+    super(options);
     this.isTool = true;
     this.hasThread = options.hasThread !== undefined ? options.hasThread : true;
     this.outputs = options.outputs || "default";

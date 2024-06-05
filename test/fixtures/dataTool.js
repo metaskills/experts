@@ -5,10 +5,9 @@ import { Tool } from "../../src/experts/tool.js";
 
 class DataTool extends Tool {
   constructor() {
-    const name = helperName("DataTool");
-    const description = "Data Tool";
-    const instructions = "Search your data files for answers to questions.";
-    super(name, description, instructions, {
+    super({
+      name: helperName("DataTool"),
+      instructions: "Search your data files for answers to questions.",
       tools: [{ type: "code_interpreter" }],
       temperature: 0.1,
     });
