@@ -4,11 +4,7 @@ import { Assistant, Tool } from "../../src/index.js";
 class AnswerTool extends Tool {
   constructor() {
     super({
-      name: helperName("NoLLMAnswerTool"),
-      description: "Answers to messages.",
-      instructions: "Answers to messages.",
       llm: false,
-      temperature: 0.1,
       parentsTools: [
         {
           type: "function",

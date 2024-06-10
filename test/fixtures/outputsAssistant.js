@@ -4,9 +4,6 @@ import { Assistant, Tool } from "../../src/index.js";
 class AnswerTwoTool extends Tool {
   constructor() {
     super({
-      name: helperName("AnswerTwoTool"),
-      description: "Answers to messages.",
-      instructions: "Answers to messages.",
       llm: false,
       parentsTools: [
         {

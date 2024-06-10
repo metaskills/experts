@@ -5,8 +5,6 @@ class DrillTool extends Tool {
   static calls = 0;
   constructor() {
     super({
-      name: helperName("DrillTool"),
-      description: "A drill tool.",
       llm: false,
       parentsTools: [
         {
