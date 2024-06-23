@@ -38,7 +38,7 @@ class Assistant {
       this.temperature =
         options.temperature !== undefined ? options.temperature : 1.0;
       this.top_p = options.top_p !== undefined ? options.top_p : 1.0;
-      this.experts = {};
+      this.experts = [];
       this.tools = options.tools || [];
       this.tool_resources = options.tool_resources || {};
       this._metadata = options.metadata;
@@ -104,7 +104,7 @@ class Assistant {
 
   addAssistantTool(toolClass) {
     const assistantTool = new toolClass();
-    this.experts[assistantTool.toolName] = assistantTool;
+    this.experts.push(assistantTool);
     if (assistantTool.isParentsTools) {
       for (const tool of assistantTool.parentsTools) {
         this.tools.push(tool);

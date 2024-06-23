@@ -156,7 +156,7 @@ class EchoTool extends Tool {
         {
           type: "function",
           function: {
-            name: EchoTool.toolName,
+            name: "echo",
             description: description,
             parameters: {
               type: "object",
@@ -172,7 +172,7 @@ class EchoTool extends Tool {
 ```
 
 > [!CAUTION]
-> It is critical that your tool's function name use the `toolName` getter. Experts.js converts this to a snake_case string and uses the name to find the the right tool and call it. 
+> It is critical that your tool's function name be unique across its parent's entire set of tool names.
 
 As such, Tool class names are important and help OpenAI's models decide which tool to call. So pick a good name for your tool class. For example, `ProductsOpenSearchTool` will be `products_open_search` and clearly helps the model infer along with the tool's description what role it performs.
 
@@ -284,7 +284,7 @@ class CarpenterAssistant extends Assistant {
       run_options: {
         tool_choice: {
           type: "function",
-          function: { name: MyTool.toolName },
+          function: { name: "my_tool_name" },
         },
       },
     });
@@ -298,7 +298,7 @@ Alternatively, you can pass an options object to the `ask` method to be used for
 ```javascript
 await assistant.ask("...", "thread_abc123", {
   run: {
-    tool_choice: { type: "function", function: { name: MyTool.toolName } },
+    tool_choice: { type: "function", function: { name: "my_tool_name" } },
     additional_instructions: "...",
     additional_messages: [...],
   },

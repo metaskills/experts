@@ -89,7 +89,7 @@ class Run {
       debug("🪚  " + JSON.stringify(toolCall));
       if (toolCall.type === "function") {
         const toolOutput = { tool_call_id: toolCall.id };
-        const toolCaller = this.assistant.experts[toolCall.function.name];
+        const toolCaller = this.#findExpertByToolName(toolCall.function.name);
         if (toolCaller && typeof toolCaller.ask === "function") {
           const output = await toolCaller.ask(
             toolCall.function.arguments,
@@ -122,6 +122,23 @@ class Run {
         this.assistant.addExpertOutput(to.output);
       });
     }
+  }
+
+  #findExpertByToolName(functionName) {
+    let toolCaller;
+    this.assistant.experts.forEach((expert) => {
+      if (expert.isParentsTools) {
+        expert.parentsTools.forEach((parentTool) => {
+          if (
+            parentTool.type === "function" &&
+            parentTool.function.name === functionName
+          ) {
+            toolCaller = expert;
+          }
+        });
+      }
+    });
+    return toolCaller;
   }
 }
 

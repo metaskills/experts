@@ -21,7 +21,7 @@ class ProductsOpenSearchTool extends Tool {
         {
           type: "function",
           function: {
-            name: ProductsOpenSearchTool.toolName,
+            name: "products_open_search",
             description:
               "Can turn customer's requests into search queries and return aggregate or itemized product data. Please be verbose and submit the customer's complete message or conversation summary needed to fulfill their latest request.",
             parameters: {

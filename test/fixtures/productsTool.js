@@ -11,7 +11,7 @@ You are part of a product catalog panel of experts that responds to a customer's
 
 Follow these rules:
 
-1. Use your '${ProductsOpenSearchTool.toolName}' to search for product data.
+1. Use your 'products_open_search' to search for product data.
 2. Always use your 'code_interpreter' tool to generate images for charts or graphs.
 3. Respond only with the single word "Success" to the customer.
 `.trim();
@@ -29,7 +29,7 @@ class ProductsTool extends Tool {
         {
           type: "function",
           function: {
-            name: ProductsTool.toolName,
+            name: "products",
             description:
               "Can search and analyze the apparel product data. Please be verbose and submit the customer's complete message or conversation summary needed to fulfill their latest request.",
             parameters: {

@@ -10,7 +10,7 @@ class DrillTool extends Tool {
         {
           type: "function",
           function: {
-            name: DrillTool.toolName,
+            name: "drill",
             description: "A drill tool.",
             parameters: {
               type: "object",
@@ -40,7 +40,7 @@ class CarpenterAssistant extends Assistant {
       run_options: {
         tool_choice: {
           type: "function",
-          function: { name: DrillTool.toolName },
+          function: { name: "drill" },
         },
       },
     });

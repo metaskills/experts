@@ -2,6 +2,19 @@
 
 See this http://keepachangelog.com link for information on how we want this documented formatted.
 
+## v1.3.0
+
+### Fixed
+
+Now `parentsTools` can now have multiple functions present. This should have worked all along but was overlooked. See changes around `MyTool.toolName` below.
+
+### Changed
+
+No documented usage of `MyTool.toolName`. It is still used internally for a Tool's  thread meta. The function is still available for use, but it is not recommended.
+
+> [!CAUTION]
+> It is critical that your tool's function name be unique across its parent's entire set of tool names.
+
 ## v1.2.0
 
 ### Changed

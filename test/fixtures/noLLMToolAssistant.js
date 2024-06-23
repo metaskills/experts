@@ -9,7 +9,7 @@ class AnswerTool extends Tool {
         {
           type: "function",
           function: {
-            name: AnswerTool.toolName,
+            name: "answer",
             description: "Answers to messages.",
             parameters: {
               type: "object",
@@ -32,7 +32,7 @@ class NoLLMToolAssistant extends Assistant {
     super({
       name: helperName("NoLLMToolAssistant"),
       description: "Answers to messages.",
-      instructions: `You must route /tool messages in full to your '${AnswerTool.toolName}' tool. Never respond without first using that tool. Never! Ex: When asked what color the sky is, use the '${AnswerTool.toolName}' tool first.`,
+      instructions: `You must route /tool messages in full to your 'answer' tool. Never respond without first using that tool. Never! Ex: When asked what color the sky is, use the 'answer' tool first.`,
     });
     this.addAssistantTool(AnswerTool);
   }

@@ -10,7 +10,7 @@ class EchoTool extends Tool {
         {
           type: "function",
           function: {
-            name: EchoTool.toolName,
+            name: "echo",
             description: "Echo",
             parameters: {
               type: "object",
