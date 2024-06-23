@@ -33,6 +33,6 @@
   },
   "dependencies": {
     "eventemitter2": "^6.4.9",
-    "openai": "^4.47.1"
+    "openai": "^4.52.0"
   }
 }
