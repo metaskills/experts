@@ -6,6 +6,21 @@ class EchoTool extends Tool {
     super({
       name: helperName("EchoTool"),
       instructions: "Echo the same text back to the user",
+      outputs: "tools",
+      tools: [
+        {
+          type: "function",
+          function: {
+            name: "marco",
+            description: "Use this tool if you get the /marco command.",
+            parameters: {
+              type: "object",
+              properties: { invoke: { type: "boolean" } },
+              required: ["invoke"],
+            },
+          },
+        },
+      ],
       parentsTools: [
         {
           type: "function",
@@ -21,6 +36,14 @@ class EchoTool extends Tool {
         },
       ],
     });
+  }
+
+  async ask(message, threadID, options = {}) {
+    const json = JSON.parse(message);
+    if (json.message === "marco") {
+      return "polo";
+    }
+    return await super.ask(message, threadID, options);
   }
 }
 
