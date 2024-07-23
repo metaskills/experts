@@ -12,11 +12,11 @@ class EchoTool extends Tool {
           type: "function",
           function: {
             name: "marco",
-            description: "Use this tool if you get the /marco command.",
+            description: "Use this tool if you get the '/marco' message.",
             parameters: {
               type: "object",
-              properties: { invoke: { type: "boolean" } },
-              required: ["invoke"],
+              properties: { invoke_marco: { type: "boolean" } },
+              required: ["invoke_marco"],
             },
           },
         },
@@ -36,12 +36,17 @@ class EchoTool extends Tool {
         },
       ],
     });
+    this.marcoToolCallCount = 0;
   }
 
   async ask(message, threadID, options = {}) {
-    const json = JSON.parse(message);
-    if (json.message === "marco") {
-      return "polo";
+    let json;
+    try {
+      json = JSON.parse(message);
+    } catch (error) {}
+    if (json?.invoke_marco === true) {
+      this.marcoToolCallCount++;
+      return "poolo";
     }
     return await super.ask(message, threadID, options);
   }

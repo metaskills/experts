@@ -39,6 +39,7 @@ class Assistant {
         options.temperature !== undefined ? options.temperature : 1.0;
       this.top_p = options.top_p !== undefined ? options.top_p : 1.0;
       this.experts = [];
+      this.expertsFunctionNames = [];
       this.tools = options.tools || [];
       this.tool_resources = options.tool_resources || {};
       this._metadata = options.metadata;
@@ -107,7 +108,10 @@ class Assistant {
     this.experts.push(assistantTool);
     if (assistantTool.isParentsTools) {
       for (const tool of assistantTool.parentsTools) {
-        this.tools.push(tool);
+        if (tool.type === "function") {
+          this.tools.push(tool);
+          this.expertsFunctionNames.push(tool.function.name);
+        }
       }
     }
   }

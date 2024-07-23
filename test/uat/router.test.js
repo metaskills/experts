@@ -24,8 +24,10 @@ test("each has own thread using metadata links", async () => {
   expect(thread2.metadata.tool).toMatch(/Experts\.js \(EchoTool\)/);
 });
 
-test("commands can pass from tool to tool", async () => {
+test("commands can pass from assistant to assistant's tool", async () => {
   const threadID = await helperThreadID();
   const output = await assistant.ask("/marco", threadID);
-  expect(output).toMatch(/polo/);
+  const tool = assistant.experts[0];
+  expect(tool.marcoToolCallCount).toBe(1);
+  expect(output).toMatch(/poolo/);
 });

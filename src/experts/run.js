@@ -126,6 +126,7 @@ class Run {
 
   #findExpertByToolName(functionName) {
     let toolCaller;
+    // Always ask an expert if they can answer.
     this.assistant.experts.forEach((expert) => {
       if (expert.isParentsTools) {
         expert.parentsTools.forEach((parentTool) => {
@@ -138,6 +139,15 @@ class Run {
         });
       }
     });
+    if (toolCaller) return toolCaller;
+    // Allow this assistant to use its own tool if that tool is not a linked expert.
+    if (!this.assistant.expertsFunctionNames.includes(functionName)) {
+      this.assistant.tools.forEach((tool) => {
+        if (tool.type === "function" && tool.function.name === functionName) {
+          toolCaller = this.assistant;
+        }
+      });
+    }
     return toolCaller;
   }
 }
