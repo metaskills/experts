@@ -2,6 +2,12 @@
 
 See this http://keepachangelog.com link for information on how we want this documented formatted.
 
+## v1.3.1
+
+### Fixed
+
+Allow Assistants or Assistants as Tools to have OpenAI `tools` that can be invoked on your Run's behalf. Prior, there was a heavy bias that all tool calls were experts and this is not the case.
+
 ## v1.3.0
 
 ### Fixed
