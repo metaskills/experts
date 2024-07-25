@@ -29,7 +29,7 @@ class Thread {
 
   get hasAssistantMetadata() {
     return (
-      this.metadata.hasOwnProperty("assistant") &&
+      Object.prototype.hasOwnProperty.call(this.metadata, 'assistant') &&
       this.metadata.assistant.length > 0
     );
   }
