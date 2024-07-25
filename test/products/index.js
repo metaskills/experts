@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 
 const jsonFile = path.join(__dirname, "data.json");
 const products = JSON.parse(fs.readFileSync(jsonFile, "utf-8"));
-const queue = new PQueue({ concurrency: 30, autoStart: true });
+const queue = new PQueue({ concurrency: 10, autoStart: true });
 
 const createEmbedding = async (input) => {
   const response = await openai.embeddings.create({

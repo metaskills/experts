@@ -1,8 +1,8 @@
 import { helperThreadID } from "../helpers.js";
-import { EchoTool, DataTool } from "../fixtures.js";
+import { BasicEchoTool, DataTool } from "../fixtures.js";
 
 test("simple echo tool", async () => {
-  const tool = await EchoTool.create();
+  const tool = await BasicEchoTool.create();
   expect(tool.isTool).toBe(true);
   const threadID = await helperThreadID();
   const output = await tool.ask("hello 123", threadID);

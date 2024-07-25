@@ -1,6 +1,29 @@
 import { helperName } from "../helpers.js";
 import { Tool } from "../../src/experts/tool.js";
 
+class BasicEchoTool extends Tool {
+  constructor() {
+    super({
+      name: helperName("EchoTool"),
+      instructions: "Echo the same text back to the user",
+      parentsTools: [
+        {
+          type: "function",
+          function: {
+            name: "echo",
+            description: "Echo",
+            parameters: {
+              type: "object",
+              properties: { message: { type: "string" } },
+              required: ["message"],
+            },
+          },
+        },
+      ],
+    });
+  }
+}
+
 class EchoTool extends Tool {
   constructor() {
     super({
@@ -52,4 +75,4 @@ class EchoTool extends Tool {
   }
 }
 
-export { EchoTool };
+export { BasicEchoTool, EchoTool };
