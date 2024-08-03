@@ -33,7 +33,7 @@ class Assistant {
     if (this.llm) {
       this.id = options.id;
       this.model =
-        options.model || process.env.EXPERTS_DEFAULT_MODEL || "gpt-4o";
+        options.model || process.env.EXPERTS_DEFAULT_MODEL || "gpt-4o-mini";
       this.messages = [];
       this.temperature =
         options.temperature !== undefined ? options.temperature : 1.0;

@@ -2,6 +2,12 @@
 
 See this http://keepachangelog.com link for information on how we want this documented formatted.
 
+## v1.4.0
+
+### Changed
+
+Default to GPT-4o mini. Reminder, you can use `EXPERTS_DEFAULT_MODEL` environment variable to set the default model.
+
 ## v1.3.1
 
 ### Fixed
