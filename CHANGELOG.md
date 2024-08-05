@@ -2,6 +2,12 @@
 
 See this http://keepachangelog.com link for information on how we want this document formatted.
 
+## v1.4.2
+
+### Added
+
+Streaming support for buffered output added in v1.4.1.
+
 ## v1.4.1
 
 ### Added

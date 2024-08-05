@@ -7,6 +7,7 @@ const { EventEmitter2 } = EventEmitter2Pkg;
 
 const ASYNC_EVENTS = [
   "textDoneAsync",
+  "bufferedTextDoneAsync",
   "imageFileDoneAsync",
   "runStepDoneAsync",
   "toolCallDoneAsync",
@@ -17,7 +18,7 @@ class Assistant {
   #stream;
   #streamEmitter;
   #expertsOutputs = [];
-  #bufferedOutputs = [];
+  #bufferedTextOutputs = [];
   #asyncListeners = {};
 
   static async create(options = {}) {
@@ -105,7 +106,7 @@ class Assistant {
   }
 
   addBufferedOutput(output) {
-    this.#bufferedOutputs.push(output);
+    this.#bufferedTextOutputs.push(output);
   }
 
   addAssistantTool(toolClass) {
@@ -152,8 +153,8 @@ class Assistant {
           break;
       }
     }
-    if (this.#bufferedOutputs.length > 0) {
-      newOutput = newOutput + "\n\n" + this.#bufferedOutputs.join("\n\n");
+    if (this.#bufferedTextOutputs.length > 0) {
+      newOutput = newOutput + "\n\n" + this.#bufferedTextOutputs.join("\n\n");
     }
     return newOutput;
   }
@@ -195,8 +196,8 @@ class Assistant {
     if (this.#expertsOutputs.length > 0) {
       this.#expertsOutputs.length = 0;
     }
-    if (this.#bufferedOutputs.length > 0) {
-      this.#bufferedOutputs.length = 0;
+    if (this.#bufferedTextOutputs.length > 0) {
+      this.#bufferedTextOutputs.length = 0;
     }
   }
 
@@ -250,6 +251,13 @@ class Assistant {
     const args = [...arguments, this.#onMetaData];
     this.emitter.emit("textDone", ...args);
     this.#forwardAsyncEvent("textDoneAsync", ...args);
+    this.#bufferedTextOutputs.forEach((output) => {
+      this.emitter.emit(
+        "bufferedTextDoneAsync",
+        { value: output },
+        this.#onMetaData
+      );
+    });
   }
 
   #onImageFileDone() {

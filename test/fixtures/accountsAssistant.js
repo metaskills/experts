@@ -64,6 +64,7 @@ class AccountsTool extends Tool {
 class AccountsAssistant extends Assistant {
   constructor() {
     super({
+      name: helperName("AccountsAssistant"),
       instructions: "Routes messages to the right tool.",
     });
     this.addAssistantTool(AccountsTool);
