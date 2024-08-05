@@ -17,6 +17,7 @@ class Tool extends Assistant {
     this.hasThread = options.hasThread !== undefined ? options.hasThread : true;
     this.outputs = options.outputs || "default";
     this.parentsTools = options.parentsTools || [];
+    this.parent = undefined;
   }
 
   get toolName() {

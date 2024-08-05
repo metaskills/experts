@@ -17,6 +17,7 @@ class Assistant {
   #stream;
   #streamEmitter;
   #expertsOutputs = [];
+  #bufferedOutputs = [];
   #asyncListeners = {};
 
   static async create(options = {}) {
@@ -103,8 +104,13 @@ class Assistant {
     this.#expertsOutputs.push(output);
   }
 
+  addBufferedOutput(output) {
+    this.#bufferedOutputs.push(output);
+  }
+
   addAssistantTool(toolClass) {
     const assistantTool = new toolClass();
+    assistantTool.parent = this;
     this.experts.push(assistantTool);
     if (assistantTool.isParentsTools) {
       for (const tool of assistantTool.parentsTools) {
@@ -141,9 +147,13 @@ class Assistant {
           break;
         case "tools":
           newOutput = this.#expertsOutputs.join("\n\n");
+          break;
         default:
           break;
       }
+    }
+    if (this.#bufferedOutputs.length > 0) {
+      newOutput = newOutput + "\n\n" + this.#bufferedOutputs.join("\n\n");
     }
     return newOutput;
   }
@@ -184,6 +194,9 @@ class Assistant {
     this.#streamEmitter = null;
     if (this.#expertsOutputs.length > 0) {
       this.#expertsOutputs.length = 0;
+    }
+    if (this.#bufferedOutputs.length > 0) {
+      this.#bufferedOutputs.length = 0;
     }
   }
 
