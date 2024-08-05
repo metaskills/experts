@@ -92,7 +92,7 @@ class HtmlTool extends Tool {
       this.parent.addBufferedOutput(renderedTemplate);
     });
     this.toolCallCount++;
-    return "Success. Added HTML to hidden buffered output only see by the use.";
+    return "Success. Added HTML to hidden buffered output only see by the user.";
   }
 }
 
@@ -105,7 +105,7 @@ class HtmlAssistant extends Assistant {
 
 1. For each user message, use the 'data_tool' first.
 2. The use the 'html_tool' to format the submitted outputs of the 'data_tool'.
-3. HTML output is hidden to you but assume the user can see it appended to your message.
+3. HTML output is hidden to you. Assume the user can see it appended to your message.
     `,
       temperature: 0.1,
     });
