@@ -1,6 +1,6 @@
 # Keep A Changelog!
 
-See this http://keepachangelog.com link for information on how we want this documented formatted.
+See this http://keepachangelog.com link for information on how we want this document formatted.
 
 ## v1.4.0
 
@@ -18,11 +18,11 @@ Allow Assistants or Assistants as Tools to have OpenAI `tools` that can be invok
 
 ### Fixed
 
-Now `parentsTools` can now have multiple functions present. This should have worked all along but was overlooked. See changes around `MyTool.toolName` below.
+Now `parentsTools` can have multiple functions present. This should have worked all along but was overlooked. See changes around `MyTool.toolName` below.
 
 ### Changed
 
-No documented usage of `MyTool.toolName`. It is still used internally for a Tool's  thread meta. The function is still available for use, but it is not recommended.
+No documented usage of `MyTool.toolName`. It is still used internally for a Tool's thread meta. The function is still available for use, but it is not recommended.
 
 > [!CAUTION]
 > It is critical that your tool's function name be unique across its parent's entire set of tool names.
@@ -33,7 +33,7 @@ No documented usage of `MyTool.toolName`. It is still used internally for a Tool
 
 **Major Assistant & Tool Constructor Changes**
 
-Both Assistant & Tool have removed their (name, description, instructions) ordinal parameters in favor a single options object. Now, the constructor signature is:
+Both Assistant & Tool have removed their (name, description, instructions) ordinal parameters in favor of a single options object. Now, the constructor signature is:
 
 ```javascript
 // Using Assistant.create() factory.
@@ -58,7 +58,7 @@ class MyAssistant extends Assistant {
 
 ## Added
 
-A new `skipUpdate` option to use for deployments such as staging where it might be desirable to use the Assistants remote resource instructions or other properties.
+A new `skipUpdate` option to use for deployments such as staging where it might be desirable to use the Assistant's remote resource instructions or other properties.
 
 ## v1.1.0
 
@@ -68,7 +68,7 @@ Names are no longer unique when assistants are created. This means the find/recr
 
 ### Fixed
 
-OpenAI now seems to validate the tool JSON on Assistant create. Fixed a bug in a test fixture where `required` was in the wrong place.
+OpenAI now seems to validate the tool JSON when an Assistant is created. Fixed a bug in a test fixture where `required` was in the wrong place.
 
 ## v1.0.2
 
@@ -96,7 +96,7 @@ However, not all make sense with Experts.js.
 
 ### Fixed
 
-- Assistant init updates configs after find by name or id.
+- Assistant init updates configs after finding by name or id.
 
 ## v1.0.0
 
