@@ -2,6 +2,14 @@
 
 See this http://keepachangelog.com link for information on how we want this document formatted.
 
+## v1.4.1
+
+### Added
+
+New buffered output support for non-LLM tools. This allows a tool to add string data as part of the `ask()` response. However, this data is not submitted to tool outputs, hence is not seen by the parent. Useful for bespoke UI where an LLM assistant is formatting data for display.
+
+See Bespoke UI Assistant test for a full example.
+
 ## v1.4.0
 
 ### Changed

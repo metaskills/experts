@@ -12,3 +12,4 @@ export {
   AccountsAssistant,
   AccountsTool,
 } from "./fixtures/accountsAssistant.js";
+export { HtmlAssistant } from "./fixtures/htmlAssistant.js";
