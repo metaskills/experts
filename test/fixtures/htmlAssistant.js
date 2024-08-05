@@ -103,8 +103,8 @@ class HtmlAssistant extends Assistant {
       instructions: `
 ## Rules
 
-1. For each user message, use the 'data_tool' first.
-2. The use the 'html_tool' to format the submitted outputs of the 'data_tool'.
+1. For each user message, use the 'data_tool' first to find items.
+2. For each item from the 'data_tool', use the 'html_tool' to HTML format them.
 3. HTML output is hidden to you. Assume the user can see it appended to your message.
     `,
       temperature: 0.1,
