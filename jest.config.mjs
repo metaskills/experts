@@ -7,7 +7,7 @@ export default {
   globalTeardown: "./test/globalTeardown.js",
   slowTestThreshold: 30,
   cacheDirectory: "./tmp",
-  setupFiles: [],
+  setupFiles: ["<rootDir>/test/env.js"],
   setupFilesAfterEnv: [],
   slowTestThreshold: 30,
   automock: false,

@@ -1,3 +1,4 @@
+import "./env.js";
 import fs from "fs";
 import ejs from "ejs";
 import url from "url";
@@ -37,7 +38,7 @@ const helperThreadID = async () => {
 
 const helperFindAllAssistants = async () => {
   const assistants = await openai.beta.assistants.list({ limit: 100 });
-  return assistants.data.filter((a) => a.name?.startsWith("Experts.js"));
+  return assistants.data;
 };
 
 const helperDeleteAllAssistants = async () => {
@@ -65,7 +66,7 @@ const helperDeleteAssistant = async (name) => {
 
 const helperFindAllVectorStores = async () => {
   const vectorStores = await openai.beta.vectorStores.list({ limit: 100 });
-  return vectorStores.data.filter((a) => a.name?.startsWith("Experts.js"));
+  return vectorStores.data;
 };
 
 const helperDeleteAllVectorStores = async () => {
@@ -73,6 +74,22 @@ const helperDeleteAllVectorStores = async () => {
   for (const vectorStore of vectorStores) {
     try {
       await openai.beta.vectorStores.del(vectorStore.id);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
+const helperFindAllFiles = async () => {
+  const files = await openai.files.list({ limit: 100 });
+  return files.data;
+};
+
+const helperDeleteAllFiles = async () => {
+  const files = await helperFindAllFiles();
+  for (const file of files) {
+    try {
+      await openai.files.del(file.id);
     } catch (error) {
       console.log(error);
     }
@@ -88,4 +105,6 @@ export {
   helperDeleteAllAssistants,
   helperFindAssistant,
   helperDeleteAllVectorStores,
+  helperFindAllFiles,
+  helperDeleteAllFiles,
 };
