@@ -245,7 +245,7 @@ class ProductsTool extends Tool {
 OpenAI's Assistants API introduces a new resource called [Threads](https://platform.openai.com/docs/assistants/how-it-works/managing-threads-and-messages) which messages & files are stored within. Essentially, threads are a managed context window (memory) for your agents. Creating a new thread with Experts.js is as easy as:
 
 ```javascript
-const thread = Thread.create();
+const thread = await Thread.create();
 console.log(thread.id) // thread_abc123
 ```
 

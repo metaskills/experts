@@ -13,3 +13,4 @@ export {
   AccountsTool,
 } from "./fixtures/accountsAssistant.js";
 export { HtmlAssistant } from "./fixtures/htmlAssistant.js";
+export { CreativeAssistant } from "./fixtures/creativeAssistant.js";
