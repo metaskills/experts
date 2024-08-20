@@ -61,6 +61,7 @@ class Assistant {
     for (const [_name, tool] of Object.entries(this.experts)) {
       await tool.init();
     }
+    await this.afterInit();
   }
 
   // Getters
@@ -96,6 +97,8 @@ class Assistant {
   }
 
   async beforeInit() {}
+
+  async afterInit() {}
 
   on(event, listener) {
     this.emitter.on(event, listener);

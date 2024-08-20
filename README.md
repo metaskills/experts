@@ -134,6 +134,14 @@ async beforeInit() {
 }
 ```
 
+Likewise, the `afterInit()` function can be used. For example, to write out newly created Assistants' IDs to an environment file.
+
+```javascript
+async afterInit() {
+  // ...
+}
+```
+
 All Assistant events receive an extra Experts'js metadata argument. An object that contains the Run's `stream`. This allows you to use the [openai-node's helper functions](https://github.com/openai/openai-node/blob/master/helpers.md#assistant-methods) such as `currentEvent`, `finalMessages`, etc.
 
 ```javascript

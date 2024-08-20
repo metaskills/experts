@@ -2,6 +2,18 @@
 
 See this http://keepachangelog.com link for information on how we want this document formatted.
 
+## v1.4.3
+
+### Added 
+
+Added another lifecycle hook, `afterInit()` Example use case, write out newly created Assistants' IDs to an environment file.
+
+```javascript
+async afterInit() {
+  // ...
+}
+```
+
 ## v1.4.2
 
 ### Added
