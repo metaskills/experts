@@ -35,6 +35,8 @@ Install via npm. Usage is very simple, there are only three objects to import.
 npm install experts
 ```
 
+Experts.js supports both ES6 import syntax and CommonJS require statements.
+
 ```javascript
 import { Assistant, Tool, Thread } from "experts";
 ```

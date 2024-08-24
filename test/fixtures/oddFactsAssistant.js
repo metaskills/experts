@@ -1,6 +1,6 @@
 import fs from "fs";
 import { openai } from "../../src/openai.js";
-import { Assistant } from "../../src/experts/assistant.js";
+import { Assistant } from "../../src/index.js";
 import { helperName, helperPath } from "../helpers.js";
 
 class OddFactsAssistant extends Assistant {

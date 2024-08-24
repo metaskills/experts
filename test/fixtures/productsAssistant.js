@@ -1,5 +1,5 @@
 import { helperName } from "../helpers.js";
-import { Assistant } from "../../src/experts/assistant.js";
+import { Assistant } from "../../src/index.js";
 import { ProductsTool } from "./productsTool.js";
 
 const INSTRUCTIONS = `

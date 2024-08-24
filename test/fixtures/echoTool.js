@@ -1,5 +1,5 @@
 import { helperName } from "../helpers.js";
-import { Tool } from "../../src/experts/tool.js";
+import { Tool } from "../../src/index.js";
 
 class BasicEchoTool extends Tool {
   constructor() {

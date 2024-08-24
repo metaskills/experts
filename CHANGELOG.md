@@ -2,6 +2,16 @@
 
 See this http://keepachangelog.com link for information on how we want this document formatted.
 
+## v1.5.0
+
+### Removed
+
+Subpath imports. Please import or require only "experts".
+
+### Added/Changed
+
+Use dual package approach. Now supports both ES6 import syntax and CommonJS require statements.
+
 ## v1.4.3
 
 ### Added 

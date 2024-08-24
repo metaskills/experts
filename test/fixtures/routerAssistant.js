@@ -1,5 +1,5 @@
 import { helperName } from "../helpers.js";
-import { Assistant } from "../../src/experts/assistant.js";
+import { Assistant } from "../../src/index.js";
 import { EchoTool } from "./echoTool.js";
 
 class RouterAssistant extends Assistant {

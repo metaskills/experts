@@ -3,7 +3,7 @@ import axios from "axios";
 import { fileTypeFromBuffer } from "file-type";
 import { openai } from "../../src/openai.js";
 import { helperName } from "../helpers.js";
-import { Tool } from "../../src/experts/tool.js";
+import { Tool } from "../../src/index.js";
 import { ProductsOpenSearchTool } from "./productsOpenSearchTool.js";
 
 const INSTRUCTIONS = `

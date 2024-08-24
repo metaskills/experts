@@ -1,19 +1,20 @@
 {
   "name": "experts",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "description": "An opinionated panel of experts implementation using OpenAI's Assistants API",
   "type": "module",
   "main": "./src/index.js",
   "exports": {
-    ".": "./src/index.js",
-    "./thread": "./src/thread.js",
-    "./assistant": "./src/assistant.js",
-    "./tool": "./src/tool.js"
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
   },
   "scripts": {
     "setup": "./bin/setup",
     "test": "./bin/test",
-    "cleanup": "./bin/cleanup"
+    "cleanup": "./bin/cleanup",
+    "build": "./bin/build"
   },
   "author": "Ken COllins",
   "license": "MIT",
@@ -24,6 +25,7 @@
     "babel-jest": "^29.7.0",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
+    "esbuild": "^0.23.1",
     "file-type": "^19.0.0",
     "jest": "^29.7.0",
     "jest-environment-node": "^29.7.0",

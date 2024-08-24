@@ -1,6 +1,6 @@
 import { helperName } from "../helpers.js";
-import { Tool } from "../../src/experts/tool.js";
-import { Assistant } from "../../src/experts/assistant.js";
+import { Tool } from "../../src/index.js";
+import { Assistant } from "../../src/index.js";
 import { z } from "zod";
 import { zodFunction, zodResponseFormat } from "openai/helpers/zod";
 

@@ -1,7 +1,7 @@
 import { helperThreadID, helperFindAssistant } from "../helpers.js";
 import { TestAssistant } from "../fixtures.js";
 
-import { Thread } from "../../src/experts/thread.js";
+import { Thread } from "../../src/index.js";
 
 test("creates a thread", async () => {
   const thread = await Thread.create();
