@@ -1,7 +1,7 @@
 import { openai } from "../../src/openai.js";
 import { opensearch } from "../products/opensearch.js";
 import { helperName, helperInstructions } from "../helpers.js";
-import { Tool } from "../../src/experts/tool.js";
+import { Tool } from "../../src/index.js";
 import { Categories } from "../products/categories.js";
 
 const INSTRUCTIONS = helperInstructions("productsOpenSearch.md", {

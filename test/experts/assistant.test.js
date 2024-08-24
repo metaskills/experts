@@ -7,7 +7,7 @@ import {
   helperThreadID,
 } from "../helpers.js";
 import { TestAssistant, TestIDAssistant } from "../fixtures.js";
-import { Thread } from "../../src/experts/thread.js";
+import { Thread } from "../../src/index.js";
 
 beforeEach(() => {
   delete process.env.TEST_ASSISTANT_ID;

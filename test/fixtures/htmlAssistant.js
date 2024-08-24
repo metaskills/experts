@@ -1,5 +1,5 @@
-import { Tool } from "../../src/experts/tool.js";
-import { Assistant } from "../../src/experts/assistant.js";
+import { Tool } from "../../src/index.js";
+import { Assistant } from "../../src/index.js";
 import { helperName } from "../helpers.js";
 
 class MockDataTool extends Tool {

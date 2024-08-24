@@ -1,7 +1,7 @@
 import fs from "fs";
 import { helperName, helperPath } from "../helpers.js";
 import { openai } from "../../src/openai.js";
-import { Tool } from "../../src/experts/tool.js";
+import { Tool } from "../../src/index.js";
 
 class DataTool extends Tool {
   constructor() {
