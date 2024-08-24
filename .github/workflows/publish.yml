@@ -18,6 +18,8 @@ jobs:
         run: npm install
       - name: Build
         run: ./bin/build
+      - name: Remove Type
+        run: npm pkg delete type
       - name: Publish
         uses: JS-DevTools/npm-publish@v3
         with:
