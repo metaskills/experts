@@ -85,11 +85,16 @@ class Assistant {
   // Interface
 
   async ask(message, threadID, options = {}) {
+    message = await this.beforeAsk(message);
     try {
       return await this.#askAssistant(message, threadID, options);
     } finally {
       await this.#askCleanup();
     }
+  }
+
+  async beforeAsk(message) {
+    return message;
   }
 
   async answered(output) {

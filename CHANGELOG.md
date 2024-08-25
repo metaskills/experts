@@ -2,6 +2,12 @@
 
 See this http://keepachangelog.com link for information on how we want this document formatted.
 
+## v1.5.4
+
+### Added
+
+New `beforeAsk(message)` callback for assistant.
+
 ## v1.5.1, v1.5.2, v1.5.3
 
 ### Fixed
