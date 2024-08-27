@@ -3,3 +3,5 @@ set -e
 
 node build.js
 npm pkg delete type
+mv ./dist/index.js ./index.js
+rm -rf ./dist
