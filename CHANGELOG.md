@@ -2,7 +2,7 @@
 
 See this http://keepachangelog.com link for information on how we want this document formatted.
 
-## v1.5.5
+## v1.5.5, v1.5.6
 
 ### Fixed
 
