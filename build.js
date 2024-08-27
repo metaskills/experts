@@ -2,6 +2,7 @@ import * as esbuild from "esbuild";
 import * as glob from "glob";
 import { promises as fs } from "fs";
 import { createRequire } from "module";
+import path from "path";
 
 const require = createRequire(import.meta.url);
 const pkg = require("./package.json");
@@ -36,24 +37,30 @@ async function build() {
     target: "node18",
     bundle: true,
     outdir: "dist",
-    external, // This line excludes all packages listed in dependencies and devDependencies
+    external,
   };
 
-  // Build ESM version
-  await esbuild.build({
-    ...commonConfig,
-    format: "esm",
-    outExtension: { ".js": ".js" },
-  });
-
-  // Build CommonJS version
+  // Build CommonJS version only
   await esbuild.build({
     ...commonConfig,
     format: "cjs",
-    outExtension: { ".js": ".cjs" },
+    outExtension: { ".js": ".js" }, // Output .js files for CommonJS
   });
 
   console.log("Build complete");
+
+  // Modify the generated files to use module.exports
+  const distFiles = glob.sync("dist/**/*.js");
+  for (const file of distFiles) {
+    let content = await fs.readFile(file, "utf8");
+    content = content.replace(
+      /export {([^}]+)};/g,
+      (_, exports) => `module.exports = { ${exports.trim()} };`
+    );
+    await fs.writeFile(file, content);
+  }
+
+  console.log("CommonJS conversion complete");
 }
 
 build().catch(console.error);

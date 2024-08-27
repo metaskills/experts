@@ -3,12 +3,6 @@
   "version": "1.5.5",
   "description": "An opinionated panel of experts implementation using OpenAI's Assistants API",
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "exports": {
-    "import": "./dist/index.js",
-    "require": "./dist/index.cjs"
-  },
   "scripts": {
     "setup": "./bin/setup",
     "test": "./bin/test",
@@ -21,6 +15,7 @@
     "src",
     "test",
     "CHANGELOG.md",
+    "jest.config.mjs",
     "LICENSE.md",
     "package.json",
     "README.md"

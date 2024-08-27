@@ -2,3 +2,4 @@
 set -e
 
 node build.js
+npm pkg delete type
