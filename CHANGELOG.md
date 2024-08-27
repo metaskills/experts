@@ -2,6 +2,12 @@
 
 See this http://keepachangelog.com link for information on how we want this document formatted.
 
+## v1.5.5
+
+### Fixed
+
+Dual package approach.
+
 ## v1.5.4
 
 ### Added
