@@ -118,7 +118,9 @@ class Assistant {
   }
 
   addAssistantTool(toolClass) {
-    const assistantTool = new toolClass();
+    const assistantTool = typeof toolClass === 'function' 
+      ? new toolClass() 
+      : toolClass;
     assistantTool.parent = this;
     this.experts.push(assistantTool);
     if (assistantTool.isParentsTools) {
