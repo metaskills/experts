@@ -1,6 +1,6 @@
 {
   "name": "experts",
-  "version": "1.5.7",
+  "version": "1.5.8",
   "description": "An opinionated panel of experts implementation using OpenAI's Assistants API",
   "type": "module",
   "scripts": {

@@ -2,6 +2,12 @@
 
 See this http://keepachangelog.com link for information on how we want this document formatted.
 
+## v1.5.8
+
+### Changed
+
+- Modified `debugEvent` function in `src/helpers.js` to remove instructions from event data when logging in DEBUG mode, preventing large instruction strings from cluttering debug output.
+
 ## v1.5.5, v1.5.6, v1.5.7
 
 ### Fixed
@@ -157,3 +163,10 @@ However, not all make sense with Experts.js.
 ### Added
 
 - Initial Release
+
+# Changelog
+
+## [Unreleased]
+
+### Changed
+- Modified `debugEvent` function in `src/helpers.js` to remove instructions from event data when logging in DEBUG mode, preventing large instruction strings from cluttering debug output.
