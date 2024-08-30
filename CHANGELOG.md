@@ -2,6 +2,12 @@
 
 See this http://keepachangelog.com link for information on how we want this document formatted.
 
+## v1.5.9
+
+### Changed
+
+- Enhanced `debugEvent` function in `src/helpers.js` to remove function descriptions from debug output, further reducing verbosity in logs.
+
 ## v1.5.8
 
 ### Changed
