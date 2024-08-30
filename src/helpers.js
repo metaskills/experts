@@ -10,7 +10,11 @@ const debug = (message) => {
 const debugEvent = (event) => {
   if (!DEBUG) return;
   if (event.event.includes("delta") && !DEBUG_DELTAS) return;
-  debug(`📡 Event: ${JSON.stringify(event)}`);
+  const eventCopy = JSON.parse(JSON.stringify(event));
+  if (eventCopy.data && eventCopy.data.instructions) {
+    eventCopy.data.instructions = "[INSTRUCTIONS REMOVED]";
+  }
+  debug(`📡 Event: ${JSON.stringify(eventCopy)}`);
 };
 
 const messagesContent = (messages) => {
