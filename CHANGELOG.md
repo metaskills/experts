@@ -2,17 +2,12 @@
 
 See this http://keepachangelog.com link for information on how we want this document formatted.
 
-## v1.5.9
+## v1.5.8, v1.5.9, v1.5.10
 
 ### Changed
 
-- Enhanced `debugEvent` function in `src/helpers.js` to remove function descriptions from debug output, further reducing verbosity in logs.
-
-## v1.5.8
-
-### Changed
-
-- Modified `debugEvent` function in `src/helpers.js` to remove instructions from event data when logging in DEBUG mode, preventing large instruction strings from cluttering debug output.
+- Use `process.env.DEBUG_PRETTY_JSON=1` - To pretty format event JSON when using `DEBUG`.
+- Use `process.env.DEBUG_EVENTS=0` - Disable event logging when using `DEBUG`.
 
 ## v1.5.5, v1.5.6, v1.5.7
 

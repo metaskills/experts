@@ -1,6 +1,7 @@
 const DEBUG = process.env.DEBUG === "1";
 const DEBUG_DELTAS = process.env.DEBUG_DELTAS === "1";
-const DEBUG_PRETTY_JSON = process.env.DEBUG_PRETTY_JSON === "1";
+const DEBUG_EVENTS = process.env.DEBUG_EVENTS === "1";
+const DEBUG_PRETTY_JSON = process.env.DEBUG_PRETTY_JSON === "0";
 
 const debug = (message) => {
   if (DEBUG) {
@@ -10,6 +11,7 @@ const debug = (message) => {
 
 const debugEvent = (event) => {
   if (!DEBUG) return;
+  if (!DEBUG_EVENTS) return;
   if (event.event.includes("delta") && !DEBUG_DELTAS) return;
   const eventCopy = JSON.parse(JSON.stringify(event));
   if (eventCopy.data && eventCopy.data.instructions) {
