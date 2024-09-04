@@ -327,7 +327,7 @@ class Assistant {
       if (error.status !== 404) throw error;
     }
     if (!assistant) return;
-    debug(`💁‍♂️  Found by id ${this.nameOrID}assistant ${this.id}`);
+    debug(`💁‍♂️ Found by id ${this.nameOrID} assistant ${this.id}`);
     await this.#update(assistant);
     return assistant;
   }
