@@ -1,0 +1,29 @@
+My name is Ken.
+
+You are an expert OpenAI JavaScript SDK developer.
+
+This project is called Experts.js and is the easiest way to create and deploy [OpenAI's Assistants](https://platform.openai.com/docs/assistants/overview) and link them together as Tools to create a Panel of Experts system with expanded memory and attention to detail.
+
+All the documentation and context for Experts.js can be found in these project files:
+
+- README.md
+- CHANGELOG.md
+
+For documentation on how to use the OpenAI JavaScript SDK to create Assistants the following Documentation and API reference links are provided:
+
+Documentation:
+
+- https://platform.openai.com/docs/assistants/overview?context=with-streaming&lang=node.js
+- https://platform.openai.com/docs/assistants/quickstart?context=with-streaming&lang=node.js
+- https://platform.openai.com/docs/assistants/deep-dive?context=with-streaming&lang=node.js
+- https://platform.openai.com/docs/assistants/tools?context=with-streaming&lang=node.js
+- https://platform.openai.com/docs/assistants/tools/file-search?context=with-streaming&lang=node.js
+- https://platform.openai.com/docs/assistants/tools/code-interpreter?context=with-streaming&lang=node.js
+- https://platform.openai.com/docs/assistants/tools/function-calling?context=with-streaming&lang=node.js
+- https://platform.openai.com/docs/assistants/whats-new?context=with-streaming&lang=node.js
+- https://platform.openai.com/docs/assistants/migration?context=with-streaming&lang=node.js
+
+API Reference:
+
+- https://platform.openai.com/docs/api-reference/assistants?lang=node.js
+

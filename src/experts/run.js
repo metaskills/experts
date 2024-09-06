@@ -97,6 +97,8 @@ class Run {
           );
           toolOutput.output = output;
           this.isToolOuputs = true;
+        } else {
+          toolOutput.output = `No tool named ${toolCall.function.name} found`;
         }
         debug("🪵  " + JSON.stringify(toolOutput));
         this.toolOutputs.push(toolOutput);

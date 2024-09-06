@@ -4,7 +4,7 @@
 
 ![Experts.js](docs/images/logo.png)
 
-Experts.js is the easiest way to create and deploy [OpenAI's Assistants](https://platform.openai.com/docs/assistants/how-it-works) and link them together as Tools to create a Panel of Experts system with expanded memory and attention to detail.
+Experts.js is the easiest way to create and deploy [OpenAI's Assistants](https://platform.openai.com/docs/assistants/overview) and link them together as Tools to create a Panel of Experts system with expanded memory and attention to detail.
 
 Made via support ❤️ by [Custom Ink | Tech](https://technology.customink.com)
 
