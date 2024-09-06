@@ -2,6 +2,12 @@
 
 See this http://keepachangelog.com link for information on how we want this document formatted.
 
+## v1.6.0
+
+### Changed
+
+- Handle tool hallucination using helpful outputs.
+
 ## v1.5.8, v1.5.9, v1.5.10
 
 ### Changed
