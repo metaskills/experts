@@ -2,6 +2,12 @@
 
 See this http://keepachangelog.com link for information on how we want this document formatted.
 
+## v1.6.1
+
+### Added
+
+- Enhanced debug output for tool call events, including file search.
+
 ## v1.6.0
 
 ### Changed
