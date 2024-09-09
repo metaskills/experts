@@ -11,8 +11,7 @@ const debug = (message) => {
 
 const debugEvent = (event) => {
   if (!DEBUG) return;
-  if (!DEBUG_EVENTS) return;
-  if (event.event.includes("delta") && !DEBUG_DELTAS) return;
+
   const eventCopy = JSON.parse(JSON.stringify(event));
   if (eventCopy.data && eventCopy.data.instructions) {
     eventCopy.data.instructions = "[INSTRUCTIONS REMOVED]";
@@ -29,10 +28,37 @@ const debugEvent = (event) => {
       return tool;
     });
   }
-  const jsonOutput = DEBUG_PRETTY_JSON
-    ? JSON.stringify(eventCopy, null, 2)
-    : JSON.stringify(eventCopy);
-  debug(`📡 Event: ${jsonOutput}`);
+
+  const isToolCallEvent = eventCopy.data?.step_details?.type === "tool_calls";
+
+  if (isToolCallEvent) {
+    const toolCalls = eventCopy.data.step_details.tool_calls;
+    toolCalls.forEach((toolCall) => {
+      const emoji = getToolCallEmoji(toolCall.type);
+      const toolCallData = toolCall[toolCall.type];
+      const jsonOutput = DEBUG_PRETTY_JSON
+        ? JSON.stringify(toolCallData, null, 2)
+        : JSON.stringify(toolCallData);
+      debug(`${emoji} Tool Call (${toolCall.type}): ${jsonOutput}`);
+    });
+  } else if (DEBUG_EVENTS) {
+    if (event.event.includes("delta") && !DEBUG_DELTAS) return;
+    const jsonOutput = DEBUG_PRETTY_JSON
+      ? JSON.stringify(eventCopy, null, 2)
+      : JSON.stringify(eventCopy);
+    debug(`📡 Event: ${jsonOutput}`);
+  }
+};
+
+const getToolCallEmoji = (toolType) => {
+  switch (toolType) {
+    case "file_search":
+      return "🧰 🔍";
+    case "code_interpreter":
+      return "🧰 💻";
+    default:
+      return "🧰";
+  }
 };
 
 const messagesContent = (messages) => {
