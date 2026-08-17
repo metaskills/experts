@@ -293,7 +293,7 @@ class Assistant {
   #onEnd() {
     const args = [...arguments, this.#onMetaData];
     this.emitter.emit("end", ...args);
-    this.#forwardAsyncEvent("end", ...args);
+    this.#forwardAsyncEvent("endAsync", ...args);
   }
 
   #forwardAsyncEvent(event, ...args) {
