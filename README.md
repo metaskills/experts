@@ -45,6 +45,23 @@ import { Assistant, Tool, Thread } from "experts";
 * [Tools](#tools) - An Assistant that can be used by other Assistants.
 * [Threads](#threads) - A managed context window for your agents.
 
+To use an OpenAI-compatible proxy, local model gateway, or custom client
+settings, configure the shared OpenAI client before creating assistants:
+
+```javascript
+import { configureOpenAI } from "experts";
+
+configureOpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  baseURL: "http://localhost:4000/v1",
+  maxRetries: 2,
+});
+```
+
+All [OpenAI client options](https://github.com/openai/openai-node#configuring-the-http-client)
+are passed through. When `apiKey` is omitted, Experts.js continues to use
+`OPENAI_API_KEY`.
+
 ## Assistants
 
 The constructor of our [Assistant](https://platform.openai.com/docs/assistants/how-it-works/creating-assistants) facade object requires a name, description, and instructions. The third argument is a set of options which directly maps to all the request body options outlined in the [create assistant](https://platform.openai.com/docs/api-reference/assistants/createAssistant) documentation. All examples in Experts.js are written in ES6 classes for simplicity. The default model is `gpt-4o-mini`.
@@ -455,4 +472,3 @@ Now you can run the following commands:
 ./bin/setup
 ./bin/test
 ```
-
